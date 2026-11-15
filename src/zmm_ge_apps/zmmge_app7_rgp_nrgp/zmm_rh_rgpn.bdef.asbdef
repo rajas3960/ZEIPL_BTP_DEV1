@@ -1,0 +1,34 @@
+projection;
+strict ( 2 );
+use draft;
+use side effects;
+with managed instance filter;
+
+define behavior for ZMM_RH_RGPN alias Header
+{
+  // Returns: no create / delete of gate passes; Edit only to record receipts
+  use action Edit;
+  use action Resume;
+  use action Activate;
+  use action Discard;
+  use action Prepare;
+
+  use association _Item { with draft; }
+}
+
+define behavior for ZMM_RI_RGPN alias Item
+{
+  use action DocumentClose;
+
+  use association _Header { with draft; }
+  use association _Receipt { create; with draft; }
+}
+
+define behavior for ZMM_RR_RGPN alias Receipt
+{
+  use update;
+  use delete;
+
+  use association _Item { with draft; }
+  use association _Header { with draft; }
+}

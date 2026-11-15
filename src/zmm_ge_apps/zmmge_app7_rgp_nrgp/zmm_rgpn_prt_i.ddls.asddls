@@ -1,0 +1,26 @@
+@EndUserText.label: 'RGP/NRGP Gate Pass - Print Items'
+@ObjectModel.query.implementedBy: 'ABAP:ZCL_RGPN_PRT_I_QRY'
+define custom entity ZMM_RGPN_PRT_I
+{
+  key uuid           : sysuuid_x16;
+  key sno            : abap.numc(5);
+      Mcode          : matnr;
+      Mdesc          : maktx;
+      Uom            : meins;
+      Hsn            : abap.char(30);
+      plant          : werks_d;
+      plantname      : abap.char(50);
+      plant_combined : abap.char(50);
+      hsncode        : abap.char(30);
+      remarks        : abap.char(30);
+      Taxcode        : abap.char(02);
+      @Semantics.quantity.unitOfMeasure: 'Uom'
+      Qty            : menge_d;
+      Curky          : abap.cuky( 5 );
+      @Semantics.amount.currencyCode: 'Curky'
+      Rate           : abap.curr( 13, 2 );
+      @Semantics.amount.currencyCode: 'Curky'
+      Amount         : abap.curr( 13, 2 );
+      @Semantics.amount.currencyCode: 'Curky'
+      Talav          : abap.curr( 13, 2 );
+}

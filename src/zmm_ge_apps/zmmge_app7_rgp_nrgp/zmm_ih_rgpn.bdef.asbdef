@@ -1,0 +1,145 @@
+managed implementation in class zbp_mm_ih_rgpn unique;
+strict ( 2 );
+with draft;
+
+//====================================================================
+// Gate pass header (root)
+// Status Gpstatus: 01 Created | 02 Gate Verified | 03 Gate Out
+//                  04 Partly Returned | 05 Closed
+//====================================================================
+define behavior for ZMM_IH_RGPN alias Header
+persistent table zmmge_rgp_hd
+draft table zmmge_rgp_hdd
+etag master Locallastchangedat
+lock master total etag Lastchangedat
+authorization master ( global )
+{
+  create;
+  update ( features : instance );
+  delete ( features : instance );
+  association _Item { create ( features : instance ); with draft; }
+
+  field ( readonly, numbering : managed ) Gpuuid;
+  field ( mandatory : create, readonly : update ) Gptype;
+  field ( readonly ) Gpno, Gpstatus, Plantname, Issuedby, Gpvalue, Curky,
+  Vendname, Addressid, Streetname, Bpaddrstreetname, Cityname,
+  Postalcode, Region, Gstin, Pan, Phone, Emailaddress,
+  Attachment, Mimetype, Filename,
+  Gvnum, Gvdat, Gvtim, Gvby, Gotdat, Gottim, Gotby,
+  Createdby, Createdat, Lastchangedby, Lastchangedat, Locallastchangedat;
+  // editable until Gate Verify; Plnrtndate only for RGP
+  field ( features : instance ) Plant, Vendnum, Issuedate, Plnrtndate, Rsngp, Reqby, Reqdpt,
+  Contpr, Remarks, Dispby, Vehicleno, Vehicletype,
+  Transporterid, Transportername, Lrnumber, Lrdate, Ewabillno,ewabilldate,
+  Insurno, Frghtscope, Pcklist, Fromplace, Toplace,
+  Netwgt, Grosswgt, Tarewgt, Wgtuom;
+
+  // App 1 – Issue
+  action ( features : instance ) AddMaterial parameter ZMM_RGPN_MAT_PARAM result [1] $self;
+  action ( features : instance ) PrintPreview result [1] $self;
+  // App 2 – Security gate
+  action ( features : instance ) GateVerify result [1] $self;
+  action ( features : instance ) GateOut result [1] $self;
+
+  determination SetDefaults on modify { create; }
+  determination GetVendorAddress on modify { field Vendnum; }
+  determination AssignNumber on save { create; }
+  determination CalcTotalsAndStatus on save { create; update; }
+  determination uptransporter on modify{ field Transporterid;}
+  validation ValidateHeader on save { create; field Gptype, Plant, Vendnum, Issuedate, Plnrtndate; }
+
+  draft action Resume;
+  draft action ( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action Prepare
+  {
+    validation ValidateHeader;
+    validation Item~ValidateQuantity;
+    validation Receipt~ValidateReceipt;
+    determination ( always ) CalcTotalsAndStatus;
+  }
+
+  side effects
+  {
+    field Vendnum affects field Vendname, field Addressid, field Streetname, field Bpaddrstreetname,
+        field Cityname, field Postalcode, field Region, field Gstin, field Pan,
+        field Phone, field Emailaddress;
+    field Gptype affects permissions ( field Plnrtndate );
+    action AddMaterial affects entity _Item, field Gpvalue, field Curky, field Plantname;
+  }
+
+  mapping for zmmge_rgp_hd corresponding;
+}
+
+//====================================================================
+// Item
+//====================================================================
+define behavior for ZMM_II_RGPN alias Item
+persistent table zmmge_rgp_it
+draft table zmmge_rgp_itd
+etag master Locallastchangedat
+lock dependent by _Header
+authorization dependent by _Header
+{
+  update ( features : instance );
+  delete ( features : instance );
+  association _Header { with draft; }
+  association _Receipt { create ( features : instance ); with draft; }
+
+  field ( readonly, numbering : managed ) Itemuuid;
+  field ( readonly ) Gpuuid, Itemno, Matnr, Maktx, Plant, Plantname, Hsncode,
+  Totvalue, Totrcvqty, Totaccqty, Totrjtqty, Totopnqty, Closed,
+  Createdby, Createdat, Lastchangedby, Lastchangedat, Locallastchangedat;
+  // Uom/Curky read-only via feature control: RAP forbids a static read-only unit/currency for an editable qty/amount
+  field ( features : instance ) Quantity, Uom, Netprice, Curky, Taxcode, Storagelocation, Remarks;
+
+  // App 3 – Returns: close an RGP line manually (short return / write-off)
+  action ( features : instance, authorization : update ) DocumentClose result [1] $self;
+
+  determination CalcItemValue on modify { create; field Quantity, Netprice; }
+  validation ValidateQuantity on save { create; field Quantity; }
+
+  side effects
+  {
+    field Quantity affects field Totvalue, field _Header.Gpvalue;
+    field Netprice affects field Totvalue, field _Header.Gpvalue;
+  }
+
+  mapping for zmmge_rgp_it corresponding;
+}
+
+//====================================================================
+// RGP return receipt
+//====================================================================
+define behavior for ZMM_IR_RGPN alias Receipt
+persistent table zmmge_rgp_rc
+draft table zmmge_rgp_rcd
+etag master Locallastchangedat
+lock dependent by _Header
+authorization dependent by _Header
+{
+  update ( features : instance );
+  delete ( features : instance );
+  association _Item { with draft; }
+  association _Header { with draft; }
+
+  field ( readonly, numbering : managed ) Rcptuuid;
+  field ( readonly ) Itemuuid, Gpuuid, Rcptno, Gateinno, Gateindate, Gateintime, Rjtqty,
+  Createdby, Createdat, Lastchangedby, Lastchangedat, Locallastchangedat;
+  // Uom read-only via feature control (same RAP rule as above)
+  field ( features : instance ) Invoice, Challandate, Recvqty, Accqty, Uom, Remarks;
+
+  determination SetReceiptDefaults on modify { create; }
+  determination CalcRejected on modify { field Recvqty, Accqty; }
+  determination AssignGateInNo on save { create; }
+  validation ValidateReceipt on save { create; field Recvqty, Accqty; }
+
+  side effects
+  {
+    field Recvqty affects field Rjtqty;
+    field Accqty affects field Rjtqty;
+  }
+
+  mapping for zmmge_rgp_rc corresponding;
+}

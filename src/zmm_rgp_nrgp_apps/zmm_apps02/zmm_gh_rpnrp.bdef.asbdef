@@ -1,0 +1,31 @@
+managed implementation in class zbp_mm_gh_rpnrp unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZMM_GH_RPNRP alias _Header
+persistent table zmm_app1_tb
+draft table zmm_app1_tbd
+lock master total etag Lastchangedby
+authorization master ( instance )
+etag master Lastchangedby
+{
+  create ( authorization : global );
+  update ( features : instance );
+  delete ( features : instance );
+  field ( readonly,numbering : managed ) Uuid;
+
+  field(readonly) Rgpnrpactualno, Gptype,Vendnum,Vendname,Dispby;
+  field(readonly) Createdat,Createdby,Curky,Filename,Frghtscope,Gitdat,Gittim,Gotdat,Gottim,Gpnum,Gpvalue,Grosswgt,Insurno,
+  Issuedate,Issuedby,Lastchangedat,Lastchangedby,Minetype,Netwgt,Pcklist,Plnrtndate,Remarks,Rsngp,Tarewgt,Uom,Zattachment;
+
+  action(features : instance ) Statusc result [1] $self;
+  action(features : instance) Gateout result[1] $self;
+
+  draft action Resume;
+  draft action (features : instance) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action Prepare;
+
+mapping for zmm_app1_tb corresponding;
+}

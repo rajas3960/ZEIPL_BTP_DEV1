@@ -1,0 +1,104 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Report',
+                typeNamePlural: 'Outward Weigh Bridge - Report',
+                title:       { type: #STANDARD, value: 'gateentryno' },
+                description: { type: #STANDARD, value: 'suppliername' } },
+  presentationVariant: [{ sortOrder: [{ by: 'purchaseorder', direction: #ASC }] }]
+}
+annotate entity ZMM_WB_REPORT_PV
+    with 
+{
+  @UI.facet: [ 
+                { id: 'General', type: #COLLECTION,label: 'Inward Weigh Bridge - Dash Board',position: 10 },
+                { id: 'GPDetails', parentId: 'General', type: #FIELDGROUP_REFERENCE, targetQualifier: 'GPDetails', label: 'Details',  position: 10 },
+                { id: 'Order',    parentId: 'General', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Order',    label: 'Order Information',   position: 20 },
+                { id: 'Weight', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Weight', label: 'Weighment - Details',     position: 30 },
+                { id: 'HdrStatus', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Status', position: 10 },
+                { id: 'Netweight', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Netwt', position: 20 }                                                                                
+                 ]
+@UI.hidden: true                 
+uuid;
+  @UI: { lineItem:       [ { position: 10, label: 'Vehicle Number' } ],
+         identification: [ { position: 10, label: 'Vehicle Number' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 10 }]         
+  @UI.selectionField: [{ position: 10 }]       
+vehicleno;
+  @UI: { lineItem:       [ { position: 15, label: 'Overall Status',criticality: 'Criticality' } ],
+         dataPoint:      { qualifier: 'Status', title: 'Status', criticality: 'Criticality' }
+         }
+Overallstatus;
+  @UI: { lineItem:       [ { position: 20, label: 'Vendor' } ],
+         identification: [ { position: 20, label: 'Vendor' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 20 }]                  
+vendor;
+  @UI: { lineItem:       [ { position: 30, label: 'Vendor Name' } ],
+         identification: [ { position: 30, label: 'Vendor Name' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 30 }]                  
+suppliername;
+  @UI: { lineItem:       [ { position: 40, label: 'Item Code' } ],
+         identification: [ { position: 40, label: 'Item Code' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 10 }]         
+  @UI.selectionField: [{ position: 50 }]
+material;
+  @UI: { lineItem:       [ { position: 50, label: 'Item Description' } ],
+         identification: [ { position: 50, label: 'Item Description' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 20 }]         
+materialtext;
+  @UI: { lineItem:       [ { position: 60, label: 'Transporter Code' } ],
+         identification: [ { position: 60, label: 'Transporter Code' } ] }
+  @UI.selectionField: [{ position: 20 }]
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 40 }]                  
+trasporterid;
+  @UI: { lineItem:       [ { position: 70, label: 'Transporter Name' } ],
+         identification: [ { position: 70, label: 'Transporter Name' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 50 }]                  
+transportername;
+  @UI: { lineItem:       [ { position: 80, label: 'UOM' } ],
+         identification: [ { position: 80, label: 'UOM' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 30 }]         
+baseunit;
+  @UI: { lineItem:       [ { position: 90, label: 'Gross Weight' } ],
+         identification: [ { position: 90, label: 'Gross Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 10 }]                  
+grossweight;
+  @UI: { lineItem:       [ { position: 100, label: 'Tare Weight' } ],
+         identification: [ { position: 100, label: 'Tare Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 20 }]                  
+tareweight;
+  @UI: { lineItem:       [ { position: 110, label: 'Net Weight' } ],
+         identification: [ { position: 110, label: 'Net Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 30 }]                  
+netweight;
+  @UI: { lineItem:       [ { position: 120, label: 'Accpeted/Inbound Qty' } ],
+         identification: [ { position: 120, label: 'Accpeted/Inbound Qty' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 40 }]
+  @UI.dataPoint:      { qualifier: 'Netwt', title: 'Accpeted/Inbound Qty' }                                      
+grnqty;
+  @UI: { lineItem:       [ { position: 130, label: 'Shortage Qty' } ],
+         identification: [ { position: 130, label: 'Shortage Qty' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 50 }]                  
+shortageqty;
+  @UI: { lineItem:       [ { position: 140, label: 'Purchase Order' } ],
+         identification: [ { position: 140, label: 'Purchase Order' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 40 }]         
+purchaseorder;
+  @UI: { lineItem:       [ { position: 150, label: 'Purchase Order Item' } ],
+         identification: [ { position: 150, label: 'Purchase Order Item' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 50 }]         
+purchaseorderitem;
+  @UI: { lineItem:       [ { position: 160, label: 'Gate Entry' } ],
+         identification: [ { position: 160, label: 'Gate Entry' } ] }
+  @UI.selectionField: [{ position: 40 }]
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 60 }]                  
+gateentryno;
+  @UI: { lineItem:       [ { position: 170, label: 'Gate Entry Date' } ],
+         identification: [ { position: 170, label: 'Gate Entry Date' } ] }
+  @UI.selectionField: [{ position: 30 }]
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 70 }]                  
+gateentrydate;
+  @UI: { lineItem:       [ { position: 180, label: 'Gate Entry Time' } ],
+         identification: [ { position: 180, label: 'Gate Entry Time' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 80 }]                  
+gateentrytime;
+}

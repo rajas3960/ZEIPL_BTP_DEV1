@@ -1,0 +1,8 @@
+projection;
+strict ( 2 );
+
+define behavior for ZMM_CH_IMGVR alias InImgVerify
+{
+  use action Approve;
+  use action Reject;
+}

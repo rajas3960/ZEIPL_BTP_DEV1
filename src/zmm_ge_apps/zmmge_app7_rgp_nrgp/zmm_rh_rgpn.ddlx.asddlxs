@@ -1,0 +1,121 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Returnable Gate Pass',
+                typeNamePlural: 'RGP Returns',
+                title:       { type: #STANDARD, value: 'Gpno' },
+                description: { type: #STANDARD, value: 'Vendname' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Plnrtndate', direction: #ASC }] }],
+  createHidden: true,
+  deleteHidden: true
+}
+annotate entity ZMM_RH_RGPN with
+{
+  @UI.facet: [
+    { id: 'HdrStatus', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Status', position: 10 },
+    { id: 'HdrReturn', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Return', position: 20 },
+
+    { id: 'Items',     type: #LINEITEM_REFERENCE,   targetElement: '_Item',       label: 'Materials to Return', position: 10 },
+    { id: 'GPDetails', type: #FIELDGROUP_REFERENCE, targetQualifier: 'GPDetails', label: 'Gate Pass',           position: 20 },
+    { id: 'Print',     type: #FIELDGROUP_REFERENCE, targetQualifier: 'Print',     label: 'Delivery Challan',    position: 30 }
+  ]
+
+  @UI.hidden: true
+  Gpuuid;
+
+  @UI: { lineItem:       [{ position: 10, importance: #HIGH }],
+         selectionField: [{ position: 10 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 10 }] }
+  @EndUserText.label: 'Gate Pass No.'
+  Gpno;
+
+  @UI.hidden: true
+  Gptype;
+
+  @UI: { lineItem:       [{ position: 20, importance: #HIGH, criticality: 'StatusCriticality' }],
+         selectionField: [{ position: 20 }],
+         dataPoint:      { qualifier: 'Status', title: 'Status', criticality: 'StatusCriticality' },
+         textArrangement: #TEXT_ONLY }
+  @EndUserText.label: 'Status'
+  Gpstatus;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI: { selectionField: [{ position: 60 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 20 }] }
+  @EndUserText.label: 'Issuing Plant'
+  Plant;
+
+  @UI: { lineItem:       [{ position: 30, importance: #HIGH }],
+         selectionField: [{ position: 30 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 30 }] }
+  @EndUserText.label: 'Vendor'
+  Vendnum;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 40 }]
+  @EndUserText.label: 'Vendor City'
+  Cityname;
+
+  @UI: { lineItem:       [{ position: 40 }],
+         selectionField: [{ position: 40 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 50 }] }
+  @EndUserText.label: 'Issue Date'
+  Issuedate;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 60 }]
+  @EndUserText.label: 'Issued By'
+  Issuedby;
+
+  @UI: { lineItem:       [{ position: 50, importance: #HIGH }],
+         selectionField: [{ position: 50 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 70 }],
+         dataPoint:      { qualifier: 'Return', title: 'Planned Return' } }
+  @EndUserText.label: 'Planned Return Date'
+  Plnrtndate;
+
+  @UI: { lineItem:   [{ position: 60 }],
+         fieldGroup: [{ qualifier: 'GPDetails', position: 80 }] }
+  @EndUserText.label: 'Gate Out On'
+  Gotdat;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 90 }]
+  @EndUserText.label: 'Gate Out At'
+  Gottim;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 100 }]
+  @EndUserText.label: 'Gate Verify No.'
+  Gvnum;
+
+  @UI: { lineItem:   [{ position: 70 }],
+         fieldGroup: [{ qualifier: 'GPDetails', position: 110 }] }
+  @EndUserText.label: 'Vehicle No.'
+  Vehicleno;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 120 }]
+  @EndUserText.label: 'Reason for Gate Pass'
+  Rsngp;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 130 }]
+  @EndUserText.label: 'Employee Name'
+  Reqby;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 140 }]
+  @EndUserText.label: 'Requesting Dept.'
+  Reqdpt;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 150 }]
+  @EndUserText.label: 'Remarks'
+  Remarks;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 160 }]
+  @EndUserText.label: 'Total Value'
+  Gpvalue;
+
+  @UI.fieldGroup: [{ qualifier: 'Print', position: 10 }]
+  @EndUserText.label: 'Challan PDF'
+  Attachment;
+
+  @UI.hidden: true
+  Mimetype;
+  @UI.hidden: true
+  Filename;
+  @UI.hidden: true
+  Lastchangedat;
+  @UI.hidden: true
+  Locallastchangedat;
+}

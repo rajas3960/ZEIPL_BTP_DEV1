@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP/NRGP Gate Pass - Print Data'
+define service ZMM_RGPN_PRT {
+  expose ZMM_RGPN_PRT_H;
+  expose ZMM_RGPN_PRT_I;
+}

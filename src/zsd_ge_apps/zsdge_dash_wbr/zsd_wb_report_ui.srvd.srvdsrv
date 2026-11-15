@@ -1,0 +1,4 @@
+@EndUserText.label: 'Outward Weigh Bridge Report UI'
+define service ZSD_WB_REPORT_UI {
+  expose ZSD_WB_REPORT_PV as OutwardWeighReport;
+}

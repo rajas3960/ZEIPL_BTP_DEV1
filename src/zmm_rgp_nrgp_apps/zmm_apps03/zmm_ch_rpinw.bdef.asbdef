@@ -1,0 +1,28 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZMM_CH_RPINW alias _Header
+{
+  use create;
+  use update;
+  use delete;
+
+  use action DocumentClose;
+
+  use action Resume;
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Prepare;
+
+  use association _Item { create; with draft; }
+}
+
+define behavior for ZMM_CI_RPINW alias _Item
+{
+  use update;
+  use delete;
+
+  use association _Header { with draft; }
+}

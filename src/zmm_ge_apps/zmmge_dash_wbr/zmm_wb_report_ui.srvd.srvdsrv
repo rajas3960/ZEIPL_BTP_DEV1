@@ -1,0 +1,4 @@
+@EndUserText.label: 'Inward Weigh Bridge Dash Board Report UI'
+define service ZMM_WB_REPORT_UI {
+  expose ZMM_WB_REPORT_PV as InwardWeighReport;
+}

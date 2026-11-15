@@ -1,0 +1,113 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Report',
+                typeNamePlural: 'Outward Weigh Bridge - Report',
+                title:       { type: #STANDARD, value: 'gateentryno' },
+                description: { type: #STANDARD, value: 'customername' } },
+  presentationVariant: [{ sortOrder: [{ by: 'salesdocument', direction: #ASC }] }]
+}
+annotate entity ZSD_WB_REPORT_PV with
+{
+  @UI.facet: [
+                { id: 'General', type: #COLLECTION,label: 'Outward Weigh Bridge - Dash Board',position: 10 },
+                { id: 'GPDetails', parentId: 'General', type: #FIELDGROUP_REFERENCE, targetQualifier: 'GPDetails', label: 'Details',  position: 10 },
+                { id: 'Order',    parentId: 'General', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Order',    label: 'Order Information',   position: 20 },
+                { id: 'Weight', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Weight', label: 'Weighment - Details',     position: 30 },
+                { id: 'HdrStatus', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Status', position: 10 },
+                { id: 'Netweight', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Netwt', position: 20 }
+                 ]
+  @UI.hidden: true
+  uuid;
+  @UI: { lineItem:       [ { position: 10, label: 'Vehicle Number' } ],
+         identification: [ { position: 10, label: 'Vehicle Number' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 10 }]
+  @UI.selectionField: [{ position: 10 }]
+  vehicleno;
+  @UI: { lineItem:       [ { position: 15, label: 'Overall Status',criticality: 'Criticality' } ],
+         dataPoint:      { qualifier: 'Status', title: 'Status', criticality: 'Criticality' }
+         }
+  Gateentrystatus;
+  @UI: { lineItem:       [ { position: 20, label: 'Party Code' } ],
+         identification: [ { position: 20, label: 'Party Code' } ] }
+  @UI.selectionField: [{ position: 30 }]
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 20 }]
+  customer;
+  //  @UI: { lineItem:       [ { position: 30, label: 'Party Name' } ],
+  //         identification: [ { position: 30, label: 'Party Name' } ] }
+  //  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 30 }]
+  @UI.hidden: true
+  customername;
+  @UI: { lineItem:       [ { position: 40, label: 'Item Code' } ],
+         identification: [ { position: 40, label: 'Item Code' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 10 }]
+  @UI.selectionField: [{ position: 40 }]
+  material;
+  //  @UI: { lineItem:       [ { position: 50, label: 'Item Description' } ],
+  //         identification: [ { position: 50, label: 'Item Description' } ] }
+  //  @UI.fieldGroup:     [{ qualifier: 'Order', position: 20 }]
+  @UI.hidden: true
+  materialdesc;
+  @UI: { lineItem:       [ { position: 60, label: 'Transporter Code' } ],
+         identification: [ { position: 60, label: 'Transporter Code' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 33 }]
+  transportid;
+  //  @UI: { lineItem:       [ { position: 70, label: 'Transporter Name' } ],
+  //         identification: [ { position: 70, label: 'Transporter Name' } ] }
+  //  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 36 }]
+  @UI.hidden: true
+  transportname;
+  @UI: { lineItem:       [ { position: 80, label: 'UOM' } ],
+         identification: [ { position: 80, label: 'UOM' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 50 }]
+  baseunit;
+  @UI: { lineItem:       [ { position: 90, label: 'Gross Weight' } ],
+         identification: [ { position: 90, label: 'Gross Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 10 }]
+  grossweight;
+  @UI: { lineItem:       [ { position: 100, label: 'Tare Weight' } ],
+         identification: [ { position: 100, label: 'Tare Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 20 }]
+  tareweight;
+  @UI: { lineItem:       [ { position: 110, label: 'Net Weight' } ],
+         identification: [ { position: 110, label: 'Net Weight' } ] }
+  @UI.fieldGroup: [{ qualifier: 'Weight', position: 30 }]
+  @UI.dataPoint:      { qualifier: 'Netwt', title: 'Net Weight' }
+  netweight;
+  @UI: { lineItem:       [ { position: 120, label: 'Sales Order' } ],
+         identification: [ { position: 120, label: 'Sales Order' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 30 }]
+  @UI.selectionField: [{ position: 50 }]
+  salesdocument;
+  @UI: { lineItem:       [ { position: 130, label: 'Order Item' } ],
+         identification: [ { position: 130, label: 'Order Item' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 40 }]
+  salesitem;
+  @UI: { lineItem:       [ { position: 140, label: 'Gate Entry Number' } ],
+         identification: [ { position: 140, label: 'Gate Entry Number' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 40 }]
+  gateentryno;
+  @UI: { lineItem:       [ { position: 150, label: 'Gate Entry Date' } ],
+         identification: [ { position: 150, label: 'Gate Entry Date' } ] }
+  @UI.selectionField: [{ position: 20 }]
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 50 }]
+  @Consumption.filter:{ selectionType: #INTERVAL,multipleSelections: false }
+  gateentrydate;
+  @UI: { lineItem:       [ { position: 160, label: 'Gate Entry Time' } ],
+         identification: [ { position: 160, label: 'Gate Entry Time' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'GPDetails', position: 60 }]
+  gateentrytime;
+  @UI: { lineItem:       [ { position: 170, label: 'Consignee' } ],
+         identification: [ { position: 170, label: 'Consignee' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 60 }]
+  consignee;
+  @UI: { lineItem:       [ { position: 180, label: 'Bill To' } ],
+         identification: [ { position: 180, label: 'Bill To' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 70 }]
+  billto;
+  @UI: { lineItem:       [ { position: 190, label: 'Delivery Document' } ],
+         identification: [ { position: 190, label: 'Delivery Document' } ] }
+  @UI.fieldGroup:     [{ qualifier: 'Order', position: 80 }]
+  deliveryno;
+  @UI.hidden: true
+  Criticality;
+}

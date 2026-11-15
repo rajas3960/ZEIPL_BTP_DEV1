@@ -1,0 +1,24 @@
+managed implementation in class zbp_mm_ih_wmt_flag unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZMM_IH_WMT_FLAG alias weighFlag
+persistent table zmmge_wghflg_t01
+draft table zmmge_wghflg_dt
+lock master total etag Lastchangedby
+authorization master ( instance )
+etag master Lastchangedby
+{
+  create ( authorization : global );
+  update(features : instance);
+  delete(features : instance);
+  field ( readonly : update ) Gateentryseries, Materialgroup;
+
+  draft action ( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Resume;
+  draft action Discard;
+  draft determine action Prepare;
+
+ mapping for zmmge_wghflg_t01 corresponding;
+}

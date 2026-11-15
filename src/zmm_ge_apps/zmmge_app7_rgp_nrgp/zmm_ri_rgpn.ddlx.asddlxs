@@ -1,0 +1,75 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Material',
+                typeNamePlural: 'Materials to Return',
+                title:       { type: #STANDARD, value: 'Matnr' },
+                description: { type: #STANDARD, value: 'Maktx' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Itemno', direction: #ASC }] }],
+  createHidden: true,
+  deleteHidden: true
+}
+annotate entity ZMM_RI_RGPN with
+{
+  @UI.facet: [
+    { id: 'HdrOpen',  purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Open', position: 10 },
+
+    { id: 'Receipts', type: #LINEITEM_REFERENCE,   targetElement: '_Receipt',  label: 'Return Receipts', position: 10 },
+    { id: 'Item',     type: #FIELDGROUP_REFERENCE, targetQualifier: 'Item',    label: 'Material',        position: 20 }
+  ]
+
+  @UI.hidden: true
+  Itemuuid;
+  @UI.hidden: true
+  Gpuuid;
+
+  @UI: { lineItem:   [{ position: 10, importance: #HIGH },
+                      { type: #FOR_ACTION, dataAction: 'DocumentClose', label: 'Close Item' }],
+         identification: [{ type: #FOR_ACTION, dataAction: 'DocumentClose', label: 'Close Item', position: 10 }],
+         fieldGroup: [{ qualifier: 'Item', position: 10 }] }
+  @EndUserText.label: 'Item'
+  Itemno;
+  @UI: { lineItem:   [{ position: 20, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'Item', position: 20 }] }
+  @EndUserText.label: 'Material'
+  Matnr;
+  @UI.fieldGroup: [{ qualifier: 'Item', position: 30 }]
+  @EndUserText.label: 'Plant'
+  Plant;
+  @UI.fieldGroup: [{ qualifier: 'Item', position: 40 }]
+  @EndUserText.label: 'HSN/SAC'
+  Hsncode;
+  @UI: { lineItem:   [{ position: 30, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'Item', position: 50 }] }
+  @EndUserText.label: 'Issued Qty'
+  Quantity;
+  @UI: { lineItem:   [{ position: 40 }],
+         fieldGroup: [{ qualifier: 'Item', position: 60 }] }
+  @EndUserText.label: 'Received Qty'
+  Totrcvqty;
+  @UI: { lineItem:   [{ position: 50 }],
+         fieldGroup: [{ qualifier: 'Item', position: 70 }] }
+  @EndUserText.label: 'Accepted Qty'
+  Totaccqty;
+  @UI: { lineItem:   [{ position: 60 }],
+         fieldGroup: [{ qualifier: 'Item', position: 80 }] }
+  @EndUserText.label: 'Rejected Qty'
+  Totrjtqty;
+  @UI: { lineItem:   [{ position: 70, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'Item', position: 90 }],
+         dataPoint:  { qualifier: 'Open', title: 'Open Qty' } }
+  @EndUserText.label: 'Open Qty'
+  Totopnqty;
+  @UI: { lineItem:   [{ position: 80, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'Item', position: 100 }] }
+  @EndUserText.label: 'Closed'
+  Closed;
+  @UI.fieldGroup: [{ qualifier: 'Item', position: 110 }]
+  @EndUserText.label: 'Value'
+  Totvalue;
+  @UI.fieldGroup: [{ qualifier: 'Item', position: 120 }]
+  @EndUserText.label: 'Remarks'
+  Remarks;
+
+  @UI.hidden: true
+  Locallastchangedat;
+}

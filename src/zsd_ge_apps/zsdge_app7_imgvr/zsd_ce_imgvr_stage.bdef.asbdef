@@ -1,0 +1,10 @@
+unmanaged implementation in class zbp_sd_ce_imgvr_stage unique;
+strict ( 2 );
+
+define behavior for ZSD_CE_IMGVR_STAGE alias StageRow
+lock master
+authorization master ( instance )
+{
+  action ( features : instance ) Approve result [1] $self;
+  action ( features : instance ) Reject parameter ZSD_IMGVR_REJ result [1] $self;
+}

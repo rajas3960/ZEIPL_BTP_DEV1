@@ -1,0 +1,46 @@
+managed implementation in class zbp_mm_ih_rpinw unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZMM_IH_RPINW alias _Header
+persistent table ZMM_APP1_ITB
+draft table zmm_app1_itbd
+lock master total etag Lastchangedby
+authorization master ( instance )
+etag master Lastchangedby
+{
+  create ( authorization : global );
+  update( features : instance );
+  delete( features : instance );
+  field ( readonly, numbering : managed  ) Uuid;
+  field ( readonly ) Itemno;
+  field ( readonly ) Createdat, Createdby, Curky, Hsncode, Uom, Totvalue,Closedocument,
+  Totrcvqty, Totopnqty, Quantity, Netprice, Matnr, Mark, Maktx, Lastchangedat, Lastchangedby,Rgpnrpactualno;
+
+  association _Item { create; with draft; }
+  action(features : instance) DocumentClose result [1] $self ;
+  draft action Resume;
+  draft action( features : instance)Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action Prepare;
+
+  mapping for ZMM_APP1_ITB corresponding;
+}
+
+define behavior for ZMM_II_RPINW alias _Item
+persistent table zmm_app3_tb
+draft table zmm_app3_tbd
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update;
+  delete;
+  field ( readonly ) Uuid, Itemno, Sno;
+  association _Header{with draft;}
+  field ( readonly, numbering : managed  ) Subuuid;
+  determination createslno on modify { create; }
+
+  mapping for zmm_app3_tb corresponding;
+}

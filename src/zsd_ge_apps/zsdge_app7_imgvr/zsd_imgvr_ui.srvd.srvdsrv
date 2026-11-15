@@ -1,0 +1,7 @@
+@EndUserText.label: 'Outgoing Image Verification - UI Apps'
+define service ZSD_IMGVR_UI {
+  expose ZSD_CH_IMGVR       as ImageVerification;
+  expose ZMM_CH_IMGVR       as InwardImageVerification;
+  expose ZSD_CE_IMGVR_IMG   as CameraImage;
+  expose ZSD_CE_IMGVR_STAGE as CameraStage;
+}

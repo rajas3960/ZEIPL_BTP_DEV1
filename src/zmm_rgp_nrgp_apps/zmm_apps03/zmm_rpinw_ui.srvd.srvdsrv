@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP Inward Processing - UI Desgin'
+define service ZMM_RPINW_UI {
+  expose ZMM_CH_RPINW as MainHeader;
+  expose ZMM_CI_RPINW as Item;
+}

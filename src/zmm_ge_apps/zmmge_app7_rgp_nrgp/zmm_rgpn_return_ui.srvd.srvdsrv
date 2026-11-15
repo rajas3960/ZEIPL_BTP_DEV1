@@ -1,0 +1,6 @@
+@EndUserText.label: 'RGP/NRGP Gate Pass - RGP Returns'
+define service ZMM_RGPN_RETURN_UI {
+  expose ZMM_RH_RGPN as ReturnGatePass;
+  expose ZMM_RI_RGPN as ReturnItem;
+  expose ZMM_RR_RGPN as ReturnReceipt;
+}

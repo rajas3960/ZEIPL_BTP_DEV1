@@ -1,0 +1,158 @@
+@Metadata.layer: #CUSTOMER
+@UI: { headerInfo: { typeName: 'Image Verification',
+                     typeNamePlural: 'Image Verification',
+                     title: { type: #STANDARD, value: 'Gateentryno' },
+                     description: { type: #STANDARD, value: 'Vehicleno' } },
+       presentationVariant: [ { sortOrder: [ { by: 'Gateentrydate', direction: #DESC } ],
+                                visualizations: [ { type: #AS_LINEITEM } ] } ],
+       // tab of the app's list page (manifest views, 2026-10-10)
+       selectionVariant: [ { qualifier: 'Tab', text: 'Outward' } ] }
+annotate entity ZSD_CH_IMGVR with
+{
+  @UI.facet: [ { id: 'Status', purpose: #HEADER, type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Status', position: 10 },
+               { id: 'General', purpose: #STANDARD, type: #COLLECTION,
+                 label: 'Gate Entry', position: 10 },
+               { id: 'Gate', parentId: 'General', type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Gate', label: 'Gate Entry', position: 10 },
+               { id: 'Weigh', parentId: 'General', type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Weigh', label: 'Weighment', position: 20 },
+               { id: 'Verify', parentId: 'General', type: #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'Verify', label: 'Verification', position: 30 },
+               { id: 'Images', purpose: #STANDARD, type: #LINEITEM_REFERENCE,
+                 label: 'Camera Images', targetElement: '_Stages', position: 20 } ]
+
+  @UI.hidden: true
+  Uuid;
+
+  @UI.lineItem: [ { position: 10, label: 'Gate Entry No' },
+                  { type: #FOR_ACTION, dataAction: 'Approve', label: 'Approve', position: 10 },
+                  { type: #FOR_ACTION, dataAction: 'Reject', label: 'Reject', position: 20 } ]
+//  @UI.identification: [ { type: #FOR_ACTION, dataAction: 'Approve', label: 'Approve', position: 10 },
+//                        { type: #FOR_ACTION, dataAction: 'Reject', label: 'Reject', position: 20 } ]
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 10, label: 'Gate Entry No' } ]
+  @UI.selectionField: [ { position: 20 } ]
+  @EndUserText.label: 'Gate Entry No'
+  Gateentryno;
+
+  @UI.lineItem: [ { position: 20, label: 'Gate Entry Date' } ]
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 20, label: 'Gate Entry Date' } ]
+  @UI.selectionField: [ { position: 40 } ]
+  @EndUserText.label: 'Gate Entry Date'
+  Gateentrydate;
+
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 30, label: 'Gate Entry Type' } ]
+  Gateentrytype;
+
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 40, label: 'Plant' } ]
+  @UI.selectionField: [ { position: 50 } ]
+  @EndUserText.label: 'Plant'
+  Plant;
+
+  @UI.hidden: true
+  Plantname;
+
+  @UI.lineItem: [ { position: 30, label: 'Vehicle No' } ]
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 50, label: 'Vehicle No' } ]
+  @UI.selectionField: [ { position: 30 } ]
+  @EndUserText.label: 'Vehicle No'
+  Vehicleno;
+
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 60, label: 'Transporter' } ]
+  Transportname;
+
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 70, label: 'Driver' } ]
+  Drivername;
+
+  @UI.lineItem: [ { position: 40, label: 'Customer' } ]
+  @UI.fieldGroup: [ { qualifier: 'Gate', position: 80, label: 'Customer' } ]
+  Customer;
+
+  @UI.hidden: true
+  Customername;
+
+  @UI.lineItem: [ { position: 70, label: 'Weighbridge' } ]
+  @UI.fieldGroup: [ { qualifier: 'Weigh', position: 10, label: 'Weighbridge' } ]
+  Weighmentmcno;
+
+  @UI.hidden: true
+  Weighmentmcndes;
+
+  @UI.fieldGroup: [ { qualifier: 'Weigh', position: 20, label: 'Tare Weight' } ]
+  Tarewt;
+
+  @UI.hidden: true
+  Weighuom;
+
+  @UI.fieldGroup: [ { qualifier: 'Weigh', position: 30, label: 'Weighment Date' } ]
+  Weighmentdate;
+
+  @UI.fieldGroup: [ { qualifier: 'Weigh', position: 40, label: 'Weighment Time' } ]
+  Weighmenttime;
+
+  @UI.fieldGroup: [ { qualifier: 'Weigh', position: 50, label: 'Loading Finished' } ]
+  Loadendindi;
+
+  @UI.lineItem: [ { position: 50, label: 'Pending Stage' } ]
+  @UI.fieldGroup: [ { qualifier: 'Status', position: 10, label: 'Pending Stage' } ]
+  Pendingstagetext;
+
+  @UI.hidden: true
+  Pendingstage;
+  @UI.hidden: true
+  @UI.selectionField: [ { position: 10 } ]
+  @EndUserText.label: 'Pending Only (X)'
+  Ispending;
+
+  @UI.lineItem: [ { position: 55, label: 'Tare Images', criticality: 'Imgcrittare' } ]
+  @UI.fieldGroup: [ { qualifier: 'Status', position: 20, label: 'Tare Images', criticality: 'Imgcrittare' },
+                    { qualifier: 'Verify', position: 10, label: 'Tare Images', criticality: 'Imgcrittare' } ]
+  Imgstatustaretext;
+
+  @UI.lineItem: [ { position: 60, label: 'Gross Images', criticality: 'Imgcritgross' } ]
+  @UI.fieldGroup: [ { qualifier: 'Status', position: 30, label: 'Gross Images', criticality: 'Imgcritgross' },
+                    { qualifier: 'Verify', position: 20, label: 'Gross Images', criticality: 'Imgcritgross' } ]
+  Imgstatusgrosstext;
+
+  @UI.hidden: true
+  Imgcrittare;
+
+  @UI.hidden: true
+  Imgcritgross;
+
+  @UI.hidden: true
+  Imgvrstatustare;
+
+  @UI.hidden: true
+  Imgvrstatusgross;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 30, label: 'Tare Image Seq' } ]
+  Imgseqnotare;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 40, label: 'Gross Image Seq' } ]
+  Imgseqnogross;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 50, label: 'Reject Reason' } ]
+  Imgrejreason;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 60, label: 'Verified By' } ]
+  Imgverifiedby;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 70, label: 'Verified At' } ]
+  Imgverifiedat;
+
+  @UI.fieldGroup: [ { qualifier: 'Verify', position: 80, label: 'Images Valid (Create Delivery)' } ]
+  Imagevalid;
+
+  @UI.hidden: true
+  Createdby;
+
+  @UI.hidden: true
+  Createdat;
+
+  @UI.hidden: true
+  Lastchangedby;
+
+  @UI.hidden: true
+  Lastchangedat;
+}

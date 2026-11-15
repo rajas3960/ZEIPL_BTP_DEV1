@@ -1,0 +1,64 @@
+managed implementation in class zbp_mm_ih_rpnp unique;
+strict ( 2 );
+with draft;
+
+define behavior for ZMM_IH_RPNP alias _Header
+persistent table zmm_app1_tb
+draft table zmm_app1_tbd
+with additional save
+lock master total etag Lastchangedby
+authorization master ( instance )
+etag master Lastchangedby
+{
+  create ( authorization : global );
+  update( features : instance );
+  delete( features : instance );
+  field ( readonly, numbering : managed  ) Uuid;
+  field(readonly : update)Gptype;
+  field ( readonly ) Gpnum, Gpvalue, Createdat, Createdby, Curky,
+                      Seqnum,Rgpnrpactualno,Zattachment;    //Gptype
+
+  action(features : instance) MaterialInput parameter ZMM_MAT_PARAM result [1] $self ;
+  action(features : instance) checked result[1] $self;
+  action(authorization : instance) printout result[1] $self;
+  action(features : instance) RGP_NRGP_number result[1] $self;
+  determination head_modify on save {create;}
+  determination UpdateAdd on modify { field Vendnum; }
+  association _Item1 { create; with draft;}
+
+  draft action Resume;
+  draft action( features : instance ) Edit;
+  draft action Activate optimized;
+  draft action Discard;
+  draft determine action  Prepare;
+
+  side effects
+  {
+    action MaterialInput affects $self, entity _Item1;
+  }
+
+  mapping for zmm_app1_tb corresponding;
+
+}
+
+define behavior for ZMM_II_RPNP alias _Item
+persistent table zmm_app1_itb
+draft table zmm_app1_itbd
+lock dependent by _Header
+authorization dependent by _Header
+//etag master <field_name>
+{
+  update( features : instance );
+  delete( features : instance );
+  field ( readonly ) Uuid, Itemno,Matnr,Maktx,Plant,Plantname,Uom,Totvalue;
+  association _Header{with draft;}
+  determination Additem on modify {create;}
+  determination Update on modify { field Quantity; }
+  validation quant on save { create; update; field Quantity ;}
+  side effects
+  {
+    field Quantity affects field Totvalue;
+  }
+
+  mapping for zmm_app1_itb corresponding;
+}

@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP/NRGP Gate Pass - Issue'
+define service ZMM_RGPN_ISSUE_UI {
+  expose ZMM_CH_RGPN as GatePass;
+  expose ZMM_CI_RGPN as GatePassItem;
+}

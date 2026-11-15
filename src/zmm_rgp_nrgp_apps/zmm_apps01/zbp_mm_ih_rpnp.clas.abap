@@ -1,0 +1,10 @@
+CLASS zbp_mm_ih_rpnp DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zmm_ih_rpnp.
+PUBLIC SECTION.
+    CLASS-DATA: gt_gphdr TYPE TABLE OF zmm_app1_itb,
+                gt_gpitm TYPE TABLE OF zmm_app1_itb.
+ENDCLASS.
+
+
+
+CLASS ZBP_MM_IH_RPNP IMPLEMENTATION.
+ENDCLASS.

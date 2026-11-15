@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP/NRGP Gate Pass - Security Gate'
+define service ZMM_RGPN_GATE_UI {
+  expose ZMM_GH_RGPN as GatePass;
+  expose ZMM_GI_RGPN as GatePassItem;
+}

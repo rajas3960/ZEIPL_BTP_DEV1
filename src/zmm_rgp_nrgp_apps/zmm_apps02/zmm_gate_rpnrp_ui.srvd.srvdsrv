@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP & NRGP Gate Pass Creation Apps UI'
+define service ZMM_GATE_RPNRP_UI {
+  expose ZMM_HP_RPNRP as Mainpage;
+  expose ZMM_IP_RPNRP;
+}

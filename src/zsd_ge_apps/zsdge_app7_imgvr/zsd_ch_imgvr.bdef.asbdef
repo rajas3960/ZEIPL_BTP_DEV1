@@ -1,0 +1,8 @@
+projection;
+strict ( 2 );
+
+define behavior for ZSD_CH_IMGVR alias ImgVerify
+{
+  use action Approve;
+  use action Reject;
+}

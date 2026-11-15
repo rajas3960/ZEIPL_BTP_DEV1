@@ -1,0 +1,175 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Gate Pass',
+                typeNamePlural: 'Gate Passes at Security',
+                title:       { type: #STANDARD, value: 'Gpno' },
+                description: { type: #STANDARD, value: 'Vendname' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Createdat', direction: #DESC }] }],
+  createHidden: true,
+  updateHidden: true,
+  deleteHidden: true
+}
+annotate entity ZMM_GH_RGPN with
+{
+  @UI.facet: [
+    { id: 'HdrStatus', purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Status', position: 10 },
+    { id: 'HdrVeh',    purpose: #HEADER, type: #DATAPOINT_REFERENCE, targetQualifier: 'Vehicle', position: 20 },
+
+    { id: 'Gate',      type: #FIELDGROUP_REFERENCE, targetQualifier: 'Gate',      label: 'Security Gate',    position: 10 },
+    { id: 'Items',     type: #LINEITEM_REFERENCE,   targetElement: '_Item',       label: 'Materials',        position: 20 },
+    { id: 'GPDetails', type: #FIELDGROUP_REFERENCE, targetQualifier: 'GPDetails', label: 'Gate Pass',        position: 30 },
+    { id: 'Transport', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Transport', label: 'Transport',        position: 40 },
+    { id: 'Print',     type: #FIELDGROUP_REFERENCE, targetQualifier: 'Print',     label: 'Delivery Challan', position: 50 }
+  ]
+
+  @UI.hidden: true
+  Gpuuid;
+
+  @UI: { lineItem:       [{ position: 10, importance: #HIGH },
+                          { type: #FOR_ACTION, dataAction: 'GateVerify', label: 'Gate Verify' },
+                          { type: #FOR_ACTION, dataAction: 'GateOut',    label: 'Gate Out' }],
+         identification: [{ type: #FOR_ACTION, dataAction: 'GateVerify', label: 'Gate Verify', position: 10 },
+                          { type: #FOR_ACTION, dataAction: 'GateOut',    label: 'Gate Out',    position: 20 }],
+         selectionField: [{ position: 10 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 10 }] }
+  @EndUserText.label: 'Gate Pass No.'
+  Gpno;
+
+  @UI: { lineItem:       [{ position: 20, importance: #HIGH }],
+         selectionField: [{ position: 30 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 20 }],
+         textArrangement: #TEXT_ONLY }
+  @EndUserText.label: 'Type'
+  Gptype;
+
+  @UI: { lineItem:       [{ position: 30, importance: #HIGH, criticality: 'StatusCriticality' }],
+         selectionField: [{ position: 20 }],
+         fieldGroup:     [{ qualifier: 'Gate', position: 10, criticality: 'StatusCriticality' }],
+         dataPoint:      { qualifier: 'Status', title: 'Status', criticality: 'StatusCriticality' },
+         textArrangement: #TEXT_ONLY }
+  @EndUserText.label: 'Status'
+  Gpstatus;
+
+  @UI.hidden: true
+  StatusCriticality;
+
+  @UI: { selectionField: [{ position: 60 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 30 }] }
+  @EndUserText.label: 'Issuing Plant'
+  Plant;
+
+  @UI: { lineItem:       [{ position: 40, importance: #HIGH }],
+         selectionField: [{ position: 50 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 40 }] }
+  @EndUserText.label: 'Vendor'
+  Vendnum;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 50 }]
+  @EndUserText.label: 'Vendor City'
+  Cityname;
+
+  @UI: { lineItem:       [{ position: 60 }],
+         selectionField: [{ position: 40 }],
+         fieldGroup:     [{ qualifier: 'GPDetails', position: 60 }] }
+  @EndUserText.label: 'Issue Date'
+  Issuedate;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 70 }]
+  @EndUserText.label: 'Issued By'
+  Issuedby;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 80 }]
+  @EndUserText.label: 'Planned Return Date'
+  Plnrtndate;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 90 }]
+  @EndUserText.label: 'Reason for Gate Pass'
+  Rsngp;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 100 }]
+  @EndUserText.label: 'Employee Name'
+  Reqby;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 110 }]
+  @EndUserText.label: 'Requesting Dept.'
+  Reqdpt;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 120 }]
+  @EndUserText.label: 'Authorised Person'
+  Contpr;
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 130 }]
+  @EndUserText.label: 'Remarks'
+  Remarks;
+
+  @UI: { lineItem:       [{ position: 50, importance: #HIGH }],
+         selectionField: [{ position: 70 }],
+         fieldGroup:     [{ qualifier: 'Transport', position: 10 }],
+         dataPoint:      { qualifier: 'Vehicle', title: 'Vehicle' } }
+  @EndUserText.label: 'Vehicle No.'
+  Vehicleno;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 20 }]
+  @EndUserText.label: 'Vehicle Type'
+  Vehicletype;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 30 }]
+  @EndUserText.label: 'Dispatch Through'
+  Dispby;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 40 }]
+  @EndUserText.label: 'Transporter'
+  Transporterid;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 50 }]
+  @EndUserText.label: 'LR Number'
+  Lrnumber;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 60 }]
+  @EndUserText.label: 'LR Date'
+  Lrdate;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 70 }]
+  @EndUserText.label: 'E-Way Bill No.'
+  Ewabillno;
+   @UI.fieldGroup: [{ qualifier: 'Transport', position: 80 }]
+  @EndUserText.label: 'E-Way Bill Date.'
+  ewabilldate;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 90 }]
+  @EndUserText.label: 'Gross Weight'
+  Grosswgt;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 100 }]
+  @EndUserText.label: 'Tare Weight'
+  Tarewgt;
+  @UI.fieldGroup: [{ qualifier: 'Transport', position: 110 }]
+  @EndUserText.label: 'Net Weight'
+  Netwgt;
+
+  @UI.fieldGroup: [{ qualifier: 'GPDetails', position: 140 }]
+  @EndUserText.label: 'Total Value'
+  Gpvalue;
+
+  @UI: { lineItem:   [{ position: 70 }],
+         fieldGroup: [{ qualifier: 'Gate', position: 20 }] }
+  @EndUserText.label: 'Gate Verify No.'
+  Gvnum;
+  @UI.fieldGroup: [{ qualifier: 'Gate', position: 30 }]
+  @EndUserText.label: 'Verified On'
+  Gvdat;
+  @UI.fieldGroup: [{ qualifier: 'Gate', position: 40 }]
+  @EndUserText.label: 'Verified At'
+  Gvtim;
+  @UI.fieldGroup: [{ qualifier: 'Gate', position: 50 }]
+  @EndUserText.label: 'Verified By'
+  Gvby;
+  @UI: { lineItem:   [{ position: 80 }],
+         fieldGroup: [{ qualifier: 'Gate', position: 60 }] }
+  @EndUserText.label: 'Gate Out On'
+  Gotdat;
+  @UI.fieldGroup: [{ qualifier: 'Gate', position: 70 }]
+  @EndUserText.label: 'Gate Out At'
+  Gottim;
+  @UI.fieldGroup: [{ qualifier: 'Gate', position: 80 }]
+  @EndUserText.label: 'Gate Out By'
+  Gotby;
+
+  @UI.fieldGroup: [{ qualifier: 'Print', position: 10 }]
+  @EndUserText.label: 'Challan PDF'
+  Attachment;
+
+  @UI.hidden: true
+  Mimetype;
+  @UI.hidden: true
+  Filename;
+  @UI.hidden: true
+  Lastchangedat;
+  @UI.hidden: true
+  Locallastchangedat;
+}

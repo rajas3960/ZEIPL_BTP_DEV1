@@ -1,0 +1,47 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Material',
+                typeNamePlural: 'Materials',
+                title:       { type: #STANDARD, value: 'Matnr' },
+                description: { type: #STANDARD, value: 'Maktx' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Itemno', direction: #ASC }] }],
+  createHidden: true,
+  updateHidden: true,
+  deleteHidden: true
+}
+annotate entity ZMM_GI_RGPN with
+{
+  @UI.facet: [
+    { id: 'Item', type: #IDENTIFICATION_REFERENCE, label: 'Material', position: 10 }
+  ]
+
+  @UI.hidden: true
+  Itemuuid;
+  @UI.hidden: true
+  Gpuuid;
+
+  @UI: { lineItem: [{ position: 10, importance: #HIGH }], identification: [{ position: 10 }] }
+  @EndUserText.label: 'Item'
+  Itemno;
+  @UI: { lineItem: [{ position: 20, importance: #HIGH }], identification: [{ position: 20 }] }
+  @EndUserText.label: 'Material'
+  Matnr;
+  @UI: { lineItem: [{ position: 30 }], identification: [{ position: 30 }] }
+  @EndUserText.label: 'Plant'
+  Plant;
+  @UI: { lineItem: [{ position: 40 }], identification: [{ position: 40 }] }
+  @EndUserText.label: 'HSN/SAC'
+  Hsncode;
+  @UI: { lineItem: [{ position: 50, importance: #HIGH }], identification: [{ position: 50 }] }
+  @EndUserText.label: 'Quantity'
+  Quantity;
+  @UI: { lineItem: [{ position: 60 }], identification: [{ position: 60 }] }
+  @EndUserText.label: 'Value'
+  Totvalue;
+  @UI: { lineItem: [{ position: 70 }], identification: [{ position: 70 }] }
+  @EndUserText.label: 'Remarks'
+  Remarks;
+
+  @UI.hidden: true
+  Locallastchangedat;
+}

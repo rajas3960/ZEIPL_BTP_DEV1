@@ -1,0 +1,5 @@
+@EndUserText.label: 'RGP & NRGP Outward Creation Apps UI'
+define service ZMM_RPNP_UI {
+  expose ZMM_CH_RPNP as MainHeader;
+  expose ZMM_CI_RPNP as MainItem;
+}

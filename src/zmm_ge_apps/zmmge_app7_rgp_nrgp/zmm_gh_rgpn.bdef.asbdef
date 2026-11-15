@@ -1,0 +1,26 @@
+projection;
+strict ( 2 );
+use draft;
+use side effects;
+with managed instance filter;
+
+define behavior for ZMM_GH_RGPN alias Header
+{
+  // Security gate: no create / update / delete - only the two gate actions
+  use action GateVerify;
+  use action GateOut;
+
+  // required for a draft-enabled BO; the Edit button is hidden in the UI (step 8.3)
+  use action Edit;
+  use action Resume;
+  use action Activate;
+  use action Discard;
+  use action Prepare;
+
+  use association _Item { with draft; }
+}
+
+define behavior for ZMM_GI_RGPN alias Item
+{
+  use association _Header { with draft; }
+}

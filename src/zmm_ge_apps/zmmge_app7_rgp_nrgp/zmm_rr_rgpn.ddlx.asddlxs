@@ -1,0 +1,73 @@
+@Metadata.layer: #CUSTOMER
+@UI: {
+  headerInfo: { typeName: 'Return Receipt',
+                typeNamePlural: 'Return Receipts',
+                title:       { type: #STANDARD, value: 'Rcptno' },
+                description: { type: #STANDARD, value: 'Gateinno' } },
+  presentationVariant: [{ sortOrder: [{ by: 'Rcptno', direction: #ASC }] }]
+}
+annotate entity ZMM_RR_RGPN with
+{
+  @UI.facet: [
+    { id: 'Receipt', type: #FIELDGROUP_REFERENCE, targetQualifier: 'Receipt', label: 'Receipt',  position: 10 },
+    { id: 'GateIn',  type: #FIELDGROUP_REFERENCE, targetQualifier: 'GateIn',  label: 'Gate In',  position: 20 }
+  ]
+
+  @UI.hidden: true
+  Rcptuuid;
+  @UI.hidden: true
+  Itemuuid;
+  @UI.hidden: true
+  Gpuuid;
+
+  @UI: { lineItem:   [{ position: 10, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'GateIn', position: 10 }] }
+  @EndUserText.label: 'Receipt No.'
+  Rcptno;
+  @UI: { lineItem:   [{ position: 20 }],
+         fieldGroup: [{ qualifier: 'GateIn', position: 20 }] }
+  @EndUserText.label: 'Gate-In No.'
+  Gateinno;
+  @UI: { lineItem:   [{ position: 30 }],
+         fieldGroup: [{ qualifier: 'GateIn', position: 30 }] }
+  @EndUserText.label: 'Gate-In Date'
+  Gateindate;
+  @UI.fieldGroup: [{ qualifier: 'GateIn', position: 40 }]
+  @EndUserText.label: 'Gate-In Time'
+  Gateintime;
+
+  @UI: { lineItem:   [{ position: 40 }],
+         fieldGroup: [{ qualifier: 'Receipt', position: 10 }] }
+  @EndUserText.label: 'Vendor Challan / Invoice'
+  Invoice;
+  @UI: { lineItem:   [{ position: 50 }],
+         fieldGroup: [{ qualifier: 'Receipt', position: 20 }] }
+  @EndUserText.label: 'Challan Date'
+  Challandate;
+  @UI: { lineItem:   [{ position: 60, importance: #HIGH }],
+         fieldGroup: [{ qualifier: 'Receipt', position: 30 }] }
+  @EndUserText.label: 'Received Qty'
+  Recvqty;
+  @UI: { lineItem:   [{ position: 70, importance: #HIGH }],
+
+         fieldGroup: [{ qualifier: 'Receipt', position: 40 }] }
+  @EndUserText.label: 'Accepted Qty'
+  Accqty;
+  @UI: { lineItem:   [{ position: 80 }],
+         fieldGroup: [{ qualifier: 'Receipt', position: 50 }] }
+  @EndUserText.label: 'Rejected Qty'
+  Rjtqty;
+  @UI: { lineItem:   [{ position: 90 }],
+         fieldGroup: [{ qualifier: 'Receipt', position: 60 }] }
+  @EndUserText.label: 'Remarks'
+  Remarks;
+  @UI: { lineItem:   [{ position: 100 }],
+         fieldGroup: [{ qualifier: 'GateIn', position: 50 }] }
+  @EndUserText.label: 'Entered By'
+  Createdby;
+
+  @UI.hidden: true
+  Createdat;
+  @UI.hidden: true
+  Locallastchangedat;
+}
