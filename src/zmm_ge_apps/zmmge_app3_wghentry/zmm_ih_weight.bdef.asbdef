@@ -34,7 +34,7 @@ authorization master ( instance )
   draft action Activate optimized;
   draft action Resume;
   draft action Discard;
-  draft determine action Prepare;
+  draft determine action Prepare { validation WeightItem~checkGrn; }
 
   action ( features : instance ) AutoFetchWt parameter ZMM_AUTOWT_INP result [1] $self;
   action ( features : instance ) ManualFetchWt parameter ZMM_WEIGHT_INP result [1] $self;
@@ -72,11 +72,12 @@ authorization dependent by _Head
   Gateentryno, Subgateentryno, Material, Materialtext, Plant, Plantname, Baseunit, Materialgroup,
   Quantity, Remark, Tareweight, Grossweight, Poordertype, Poordertypetext, Ewaybillno, Ewaybilldate,
   Createdby, Createdat, Lastchangedby, Lastchangedat, Orderdate, Qadocumt, Podocumt, Sidocumt, Chdocumt,
-  Gateentryseries, Weightindicator, Unloadind, Grnqty, Weighmentdate, Weighmenttime, Shortageqty,
+  Gateentryseries, Weightindicator, Unloadind, Weighmentdate, Weighmenttime, Shortageqty,
   Inbounddelivery, Inbounddeliveryitem, Freightorder, Carrier, Carriername;
   field ( readonly ) Tarepending;
-  field ( features : instance ) Netweight;
+  field ( features : instance ) Netweight, Grnqty;
 
+  validation checkGrn on save { field Grnqty; }
   association _Head { with draft; }
 
   action ( features : instance ) AutoFetchTWt parameter ZMM_AUTOWT_INP result [1] $self;

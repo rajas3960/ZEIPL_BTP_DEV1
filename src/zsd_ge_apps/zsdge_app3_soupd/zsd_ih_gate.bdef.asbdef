@@ -30,6 +30,7 @@ etag master Lastchangedat
   {
     validation GateItem~checkFreightOrder;
     validation GateItem~checkQuantity;
+
   }
 
   action ( features : instance ) SalesOrder parameter ZSD_ORDER result [1] $self;

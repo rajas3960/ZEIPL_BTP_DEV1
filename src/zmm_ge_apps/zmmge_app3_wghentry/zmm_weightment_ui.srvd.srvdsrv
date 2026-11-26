@@ -1,5 +1,6 @@
 @EndUserText.label: 'Inventory Weight Recording - Apps UI'
 define service ZMM_WEIGHTMENT_UI {
-  expose ZMM_CH_WEIGHT as WeightHead;
-  expose ZMM_CI_WEIGHT as WeightItem;
+  expose ZMM_CH_WEIGHT   as WeightHead;
+  expose ZMM_CI_WEIGHT   as WeightItem;
+  expose ZMM_WEIGHT_CHLN as WeightChallan;
 }

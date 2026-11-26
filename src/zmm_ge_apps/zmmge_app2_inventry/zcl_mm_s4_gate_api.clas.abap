@@ -17,6 +17,17 @@ CLASS zcl_mm_s4_gate_api DEFINITION
              InboundDelivery    TYPE c LENGTH 10,       "new One Added By 14.10.2026
              InboundDeliveryItem   TYPE n LENGTH 6,     "new One Added By 14.10.2026
              freightorder      TYPE c LENGTH 20,        "new one added on 30.10.2026 FU -> FO
+                ""Custom field update purpose added on 24.11.2026
+             transportername            TYPE c LENGTH 20,
+             gateentrydate              TYPE d,
+             gateentrytime              TYPE t,
+             challannumber     TYPE c LENGTH 20,
+             challandate       TYPE d,
+             ewaybillno        TYPE c LENGTH 20,
+             ewaybilldate      TYPE d,
+             lrno              TYPE c LENGTH 20,
+             lrdate            TYPE d,
+             Vehicleno         TYPE c LENGTH 15,
            END OF ty_req_item,
            tt_req_item TYPE STANDARD TABLE OF ty_req_item WITH EMPTY KEY.
 
@@ -47,6 +58,7 @@ CLASS zcl_mm_s4_gate_api DEFINITION
              purchaseordertype          TYPE c LENGTH 4,
              suppliername               TYPE c LENGTH 80,
              purchasingdocumenttypename TYPE c LENGTH 20,
+             incotermsclassification    TYPE c LENGTH 3,
            END OF ty_poitem,
            tt_poitem TYPE STANDARD TABLE OF ty_poitem WITH EMPTY KEY.
 

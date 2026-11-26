@@ -1,0 +1,5 @@
+CLASS lcx_matgrpvh DEFINITION INHERITING FROM cx_rap_query_provider.
+ENDCLASS.
+
+CLASS lcx_matgrpvh IMPLEMENTATION.
+ENDCLASS.

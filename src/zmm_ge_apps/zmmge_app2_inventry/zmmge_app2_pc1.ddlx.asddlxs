@@ -1,0 +1,51 @@
+@Metadata.layer: #CUSTOMER
+@UI: { headerInfo: { typeName: 'Challan', typeNamePlural: 'Challans',
+                     title: { type: #STANDARD, value: 'Challanno' } } }
+annotate entity ZMMGE_APP2_PC1 with
+{
+  @UI.facet: [ { id: 'Challan', purpose: #STANDARD, type: #IDENTIFICATION_REFERENCE,
+                 label: 'Challan', position: 10 } ]
+
+  @UI.hidden: true
+  Chlnuuid;
+  @UI.hidden: true
+  Uuid;
+  @UI.hidden: true
+  Purchaseorder;
+  @UI.hidden: true
+  Purchaseorderitem;
+
+  @UI: { lineItem: [ { position: 10, label: 'Challan No' } ],    identification: [ { position: 10, label: 'Challan No' } ] }
+  Challanno;
+  @UI: { lineItem: [ { position: 20, label: 'Challan Date' } ],  identification: [ { position: 20, label: 'Challan Date' } ] }
+  Challandate;
+  @UI: { lineItem: [ { position: 30, label: 'Challan Qty' } ],   identification: [ { position: 30, label: 'Challan Qty' } ] }
+  Challanqty;
+  @UI: { lineItem: [ { position: 40, label: 'Transport(Challan)' } ],     identification: [ { position: 40, label: 'Transport(Challan)' } ] }
+  Trasporterid;
+  @UI: { lineItem: [ { position: 50, label: 'Challan TaWt' } ],  identification: [ { position: 50, label: 'Challan TaWt' } ] }
+  Challantareweight;
+  @UI: { lineItem: [ { position: 60, label: 'Challan GrsWt' } ], identification: [ { position: 60, label: 'Challan GrsWt' } ] }
+  Challangrossweight;
+  @UI: { lineItem: [ { position: 70, label: 'Challan NetWt' } ], identification: [ { position: 70, label: 'Challan NetWt' } ] }
+  Challannetweight;
+  @UI: { lineItem: [ { position: 80, label: 'Challan Document' } ], identification: [ { position: 80, label: 'Challan Document' } ] }
+  Chdocumt;
+  @UI: { lineItem: [ { position: 90, label: 'LR Number' } ],         identification: [ { position: 90, label: 'LR No' } ] }
+  Lrno;
+  @UI: { lineItem: [ { position: 100, label: 'LR Date' } ],      identification: [ { position: 100, label: 'LR Date' } ] }
+  Lrdate;
+  @UI: { lineItem: [ { position: 110, label: 'Sub-Series Gate No' } ], identification: [ { position: 110, label: 'Sub-Series Gate No' } ] }
+  Subgateentryno;
+
+  @UI.hidden: true
+  Trasportername;
+  @UI.hidden: true
+  Createdby;
+  @UI.hidden: true
+  Createdat;
+  @UI.hidden: true
+  Lastchangedby;
+  @UI.hidden: true
+  Lastchangedat;
+}

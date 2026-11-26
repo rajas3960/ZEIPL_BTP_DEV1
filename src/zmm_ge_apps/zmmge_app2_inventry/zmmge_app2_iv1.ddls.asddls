@@ -4,7 +4,8 @@
 @Metadata.ignorePropagatedAnnotations: true
 define view entity ZMMGE_APP2_IV1
   as select from zmmge_itm_t01 as a
-  association to parent ZMMGE_APP2_RE as _Head on $projection.Uuid = _Head.Uuid
+  association to parent ZMMGE_APP2_RE  as _Head on $projection.Uuid = _Head.Uuid
+  composition [0..*] of ZMMGE_APP2_IC1 as _Challan
 {
   key a.uuid               as Uuid,
   key a.purchaseorder      as Purchaseorder,
@@ -62,6 +63,7 @@ define view entity ZMMGE_APP2_IV1
       a.tpdocumt           as Tpdocumt,
       a.carrier            as Carrier,
       a.carriername        as Carriername,
+      incoterms            as Incoterms,
       a.freightorder       as Freightorder,
       @Semantics.user.createdBy: true
       a.createdby          as Createdby,
@@ -71,5 +73,6 @@ define view entity ZMMGE_APP2_IV1
       a.lastchangedby      as Lastchangedby,
       @Semantics.systemDateTime.lastChangedAt: true
       a.lastchangedat      as Lastchangedat,
-      _Head
+      _Head,
+      _Challan
 }

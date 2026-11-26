@@ -1,0 +1,311 @@
+@Metadata.layer: #PARTNER
+@UI: {
+    headerInfo: {
+        typeName: 'RGP NRGP Outstanding Report',
+        typeNamePlural: 'RGP NRGP Outstanding Report',
+        title: {
+            type: #STANDARD,
+            label: 'RGP NRGP Outstanding Report',
+            value: 'Gpno'
+        }
+    },
+    presentationVariant: [{
+        sortOrder: [{
+            by: 'Gpno',
+            direction: #DESC
+        }]
+    }]
+}
+
+annotate entity ZMM_RGP_NRGP_CV
+with
+{
+    @UI.facet: [{
+        id: 'Gpno',
+        purpose: #STANDARD,
+        type: #IDENTIFICATION_REFERENCE,
+        label: 'RGP NRGP Outstanding Report',
+        position: 10
+    }]
+
+    @UI: {
+        lineItem: [{ position: 10, label: 'Gate Pass No' }],
+        identification: [{ position: 10, label: 'Gate Pass No' }],
+        selectionField: [{ position: 10 }]
+    }
+    @EndUserText.label: 'Gate Pass No'
+    Gpno;
+
+    @UI: {
+        lineItem: [{ position: 20, label: 'Gate Pass Type' }],
+        identification: [{ position: 20, label: 'Gate Pass Type' }]
+    }
+    @EndUserText.label: 'Gate Pass Type'
+    Gptype;
+     
+@UI:{ lineItem: [{ position: 30,
+                   label: 'Gate Pass Status',
+                   criticality: 'GpStatusCriticality',
+                   criticalityRepresentation: #WITH_ICON }],
+      identification: [{ position: 30,
+                         label: 'Gate Pass Status',
+                         criticality: 'GpStatusCriticality',
+                         criticalityRepresentation: #WITH_ICON }] }
+@EndUserText.label: 'Gate Pass Status'
+@UI.selectionField: [{ position: 30 }]
+GpStatusText;
+
+@UI.hidden: true
+GpStatusCriticality;
+
+  @UI:{ lineItem: [{ position: 40, label: 'Vendor' }],
+  identification: [{ position: 40, label: 'Vendor' }] }
+  @EndUserText.label: 'Vendor'
+  @UI.selectionField: [{ position: 40 }]
+  Vendnum;
+
+  @UI:{ lineItem: [{ position: 50, label: 'Vendor Name' }],
+  identification: [{ position: 50, label: 'Vendor Name' }] }
+  @EndUserText.label: 'Vendor Name'
+  Vendname;
+
+  @UI:{ lineItem: [{ position: 60, label: 'Issue Date' }],
+        identification: [{ position: 60, label: 'Issue Date' }] }
+  @EndUserText.label: 'Issue Date'
+  @UI.selectionField: [{ position: 60 }]
+  Issuedate;
+
+  @UI:{ lineItem: [{ position: 70, label: 'Planned Return Date' }],
+        identification: [{ position: 70, label: 'Planned Return Date' }] }
+  @EndUserText.label: 'Planned Return Date'
+  @UI.selectionField: [{ position: 70 }]
+  Plnrtndate;
+
+  @UI:{ lineItem: [{ position: 80, label: 'Vehicle No' }],
+        identification: [{ position: 80, label: 'Vehicle No' }] }
+  @EndUserText.label: 'Vehicle No'
+  Vehicleno;
+
+  @UI:{ lineItem: [{ position: 90, label: 'Total Value' }],
+        identification: [{ position: 90, label: 'Total Value' }] }
+  @EndUserText.label: 'Total Value'
+  Gpvalue;
+
+  @UI:{ lineItem: [{ position: 110, label: 'Address' }],
+        identification: [{ position: 110, label: 'Address' }] }
+  @EndUserText.label: 'Address'
+  Bpaddrstreetname;
+
+  @UI:{ lineItem: [{ position: 120, label: 'Authorised Person' }],
+        identification: [{ position: 120, label: 'Authorised Person' }] }
+  @EndUserText.label: 'Authorised Person'
+  Contpr;
+
+  @UI:{ lineItem: [{ position: 130, label: 'Base Unit of Measure' }],
+        identification: [{ position: 130, label: 'Base Unit of Measure' }] }
+  @EndUserText.label: 'Base Unit of Measure'
+  Wgtuom;
+  
+  @UI:{ lineItem: [{ position: 140, label: 'Created By' }],
+        identification: [{ position: 140, label: 'Created By' }] }
+  @EndUserText.label: 'Created By'
+  Createdby;
+
+//  @UI:{ lineItem: [{ position: 150, label: 'Created On' }],
+//        identification: [{ position: 150, label: 'Created On' }] }
+//  @EndUserText.label: 'Created On '
+//  Dispby;
+
+  @UI:{ lineItem: [{ position: 160, label: 'Dispatch Through' }],
+        identification: [{ position: 160, label: 'Dispatch Through' }] }
+  @EndUserText.label: 'Dispatch Through'
+  Dispby;
+
+  @UI:{ lineItem: [{ position: 170, label: 'E-Mail' }],
+        identification: [{ position: 170, label: 'E-Mail' }] }
+  @EndUserText.label: 'E-Mail'
+  Emailaddress;
+
+  @UI:{ lineItem: [{ position: 180, label: 'E-Way Bill Date' }],
+        identification: [{ position: 180, label: 'E-Way Bill Date' }] }
+  @EndUserText.label: 'E-Way Bill Date'
+  ewabilldate;
+
+  @UI:{ lineItem: [{ position: 190, label: 'E-Way Bill No' }],
+        identification: [{ position: 190, label: 'E-Way Bill No' }] }
+  @EndUserText.label: 'E-Way Bill No'
+  Ewabillno;
+
+  @UI:{ lineItem: [{ position: 200, label: 'Employee Name' }],
+        identification: [{ position: 200, label: 'Employee Name' }] }
+  @EndUserText.label: 'Employee Name'
+  Reqby;
+
+  @UI:{ lineItem: [{ position: 210, label: 'From Place' }],
+        identification: [{ position: 210, label: 'From Place' }] }
+  @EndUserText.label: 'From Place'
+  Fromplace;
+
+  @UI:{ lineItem: [{ position: 220, label: 'Gate Out At' }],
+        identification: [{ position: 220, label: 'Gate Out At' }] }
+  @EndUserText.label: 'Gate Out At'
+  Gotdat;
+
+  @UI:{ lineItem: [{ position: 230, label: 'Gate Out On' }],
+        identification: [{ position: 230, label: 'Gate Out On' }] }
+  @EndUserText.label: 'Gate Out On'
+  Gottim;
+
+  @UI:{ lineItem: [{ position: 240, label: 'Gate Verify No' }],
+        identification: [{ position: 240, label: 'Gate Verify No' }] }
+  @EndUserText.label: 'Gate Verify No'
+  Gvnum;
+
+  @UI:{ lineItem: [{ position: 250, label: 'Gross Weight' }],
+        identification: [{ position: 250, label: 'Gross Weight' }] }
+  @EndUserText.label: 'Gross Weight'
+  Grosswgt;
+
+  @UI:{ lineItem: [{ position: 260, label: 'GSTIN' }],
+        identification: [{ position: 260, label: 'GSTIN' }] }
+  @EndUserText.label: 'GSTIN'
+  Gstin;
+
+  @UI:{ lineItem: [{ position: 270, label: 'Insurance No' }],
+        identification: [{ position: 270, label: 'Insurance No' }] }
+  @EndUserText.label: 'Insurance No'
+  Insurno;
+
+  @UI:{ lineItem: [{ position: 280, label: 'Issued By' }],
+        identification: [{ position: 280, label: 'Issued By' }] }
+  @EndUserText.label: 'Issued By'
+  Issuedby;
+
+  @UI:{ lineItem: [{ position: 290, label: 'Issuing Plant' }],
+        identification: [{ position: 290, label: 'Issuing Plant' }] }
+  @EndUserText.label: 'Issuing Plant'
+  @UI.selectionField: [{ position: 50 }]
+  Plant;
+
+  @UI:{ lineItem: [{ position: 300, label: 'Plant Name' }],
+        identification: [{ position: 300, label: 'Plant Name' }] }
+  @EndUserText.label: 'Plant Name'
+  Plantname;
+
+  @UI:{ lineItem: [{ position: 310, label: 'LR Date' }],
+        identification: [{ position: 310, label: 'LR Date' }] }
+  @EndUserText.label: 'LR Date'
+  Lrdate;
+
+  @UI:{ lineItem: [{ position: 320, label: 'LR Number' }],
+        identification: [{ position: 320, label: 'LR Number' }] }
+  @EndUserText.label: 'LR Number'
+  Lrnumber;
+
+  @UI:{ lineItem: [{ position: 330, label: 'Net Weight' }],
+        identification: [{ position: 330, label: 'Net Weight' }] }
+  @EndUserText.label: 'Net Weight'
+  Netwgt;
+
+  @UI:{ lineItem: [{ position: 340, label: 'PAN' }],
+        identification: [{ position: 340, label: 'PAN' }] }
+  @EndUserText.label: 'PAN'
+  Pan;
+
+  @UI:{ lineItem: [{ position: 350, label: 'Phone' }],
+        identification: [{ position: 350, label: 'Phone' }] }
+  @EndUserText.label: 'Phone'
+  Phone;
+
+  @UI:{ lineItem: [{ position: 360, label: 'Postal Code' }],
+        identification: [{ position: 360, label: 'Postal Code' }] }
+  @EndUserText.label: 'Postal Code'
+  Postalcode;
+
+  @UI:{ lineItem: [{ position: 370, label: 'Reason for Gate Pass' }],
+        identification: [{ position: 370, label: 'Reason for Gate Pass' }] }
+  @EndUserText.label: 'Reason for Gate Pass'
+  Rsngp;
+
+  @UI:{ lineItem: [{ position: 380, label: 'Remarks' }],
+        identification: [{ position: 380, label: 'Remarks' }] }
+  @EndUserText.label: 'Remarks'
+  Remarks;
+
+  @UI:{ lineItem: [{ position: 390, label: 'Requesting Department' }],
+        identification: [{ position: 390, label: 'Requesting Department' }] }
+  @EndUserText.label: 'Requesting Department'
+  Reqdpt;
+
+  @UI:{ lineItem: [{ position: 400, label: 'Tare Weight' }],
+        identification: [{ position: 400, label: 'Tare Weight' }] }
+  @EndUserText.label: 'Tare Weight'
+  Tarewgt;
+
+  @UI:{ lineItem: [{ position: 410, label: 'To Place' }],
+        identification: [{ position: 410, label: 'To Place' }] }
+  @EndUserText.label: 'To Place'
+  Toplace;
+
+  @UI:{ lineItem: [{ position: 420, label: 'Transporter Id' }],
+        identification: [{ position: 420, label: 'Transporter Id' }] }
+  @EndUserText.label: 'Transporter Id'
+  Transporterid;
+
+  @UI:{ lineItem: [{ position: 430, label: 'Transporter Name' }],
+        identification: [{ position: 430, label: 'Transporter Name' }] }
+  @EndUserText.label: 'Transporter Name'
+  transportername;
+
+  @UI:{ lineItem: [{ position: 440, label: 'Verified On' }],
+        identification: [{ position: 440, label: 'Verified On' }] }
+  @EndUserText.label: 'Verified On'
+  Gvdat;
+
+  @UI:{ lineItem: [{ position: 450, label: 'Gate-In No' }],
+        identification: [{ position: 450, label: 'Gate-In No' }] }
+  @EndUserText.label: 'Gate-In No'
+  Gateinno;
+
+  @UI:{ lineItem: [{ position: 460, label: 'Gate-In Date' }],
+        identification: [{ position: 460, label: 'Gate-In Date' }] }
+  @EndUserText.label: 'Gate-In Date'
+  Gateindate;
+
+  @UI:{ lineItem: [{ position: 470, label: 'Vendor Challan / Invoice' }],
+        identification: [{ position: 470, label: 'Vendor Challan / Invoice' }] }
+  @EndUserText.label: 'Vendor Challan / Invoice'
+  Invoice;
+
+  @UI:{ lineItem: [{ position: 480, label: 'Challan Date' }],
+        identification: [{ position: 480, label: 'Challan Date' }] }
+  @EndUserText.label: 'Challan Date'
+  Challandate;
+
+  @UI:{ lineItem: [{ position: 490, label: 'Issue Qty' }],
+        identification: [{ position: 490, label: 'Issue Qty' }] }
+  @EndUserText.label: 'Issue Qty'
+  Quantity;
+
+  @UI:{ lineItem: [{ position: 500, label: 'Received Qty' }],
+        identification: [{ position: 500, label: 'Received Qty' }] }
+  @EndUserText.label: 'Received Qty'
+  Recvqty;
+
+  @UI:{ lineItem: [{ position: 510, label: 'Accepted Qty' }],
+        identification: [{ position: 510, label: 'Accepted Qty' }] }
+  @EndUserText.label: 'Accepted Qty'
+  Accqty;
+
+  @UI:{ lineItem: [{ position: 520, label: 'Rejected Qty' }],
+        identification: [{ position: 520, label: 'Rejected Qty' }] }
+  @EndUserText.label: 'Rejected Qty'
+  Rjtqty;
+
+  @UI:{ lineItem: [{ position: 530, label: 'Open Qty' }],
+        identification: [{ position: 530, label: 'Open Qty' }] }
+  @EndUserText.label: 'Open Qty'
+  Totopnqty;
+   
+    
+}

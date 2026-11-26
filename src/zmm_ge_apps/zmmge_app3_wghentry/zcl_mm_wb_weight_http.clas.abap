@@ -50,7 +50,7 @@ ENDCLASS.
 
 
 
-CLASS ZCL_MM_WB_WEIGHT_HTTP IMPLEMENTATION.
+CLASS zcl_mm_wb_weight_http IMPLEMENTATION.
 
 
   METHOD if_http_service_extension~handle_request.
@@ -103,43 +103,39 @@ CLASS ZCL_MM_WB_WEIGHT_HTTP IMPLEMENTATION.
     " (zmmge_wght_hd) until the operator saves, so look there first
     DATA lv_in_draft TYPE abap_bool.
 
-    SELECT SINGLE uuid, gateentryno
-      FROM zmmge_wght_hd
+    " ATC (2026-11-18): a seqno is unique in practice, ORDER BY + UP TO 1
+    " ROWS makes the pick deterministic; no index on the seqno fields is
+    " needed (draft table = open drafts only, CamView calls one at a time)
+    SELECT FROM zmmge_wght_hd
+      FIELDS uuid, gateentryno
       WHERE imgseqnogross = @lv_seqno
          OR imgseqnotare  = @lv_seqno
-      INTO @DATA(ls_head).
-    IF sy-subrc = 0.
+      ORDER BY uuid
+      INTO TABLE @DATA(lt_head)
+      UP TO 1 ROWS.                                     "#EC CI_NOFIELD
+    DATA ls_head LIKE LINE OF lt_head.
+    IF lt_head IS NOT INITIAL.
+      ls_head = lt_head[ 1 ].
       lv_in_draft = abap_true.
     ELSE.
-      SELECT SINGLE uuid, gateentryno
-        FROM zmmge_hdr_t01
+      SELECT FROM zmmge_hdr_t01
+        FIELDS uuid, gateentryno
         WHERE imgseqnogross = @lv_seqno
            OR imgseqnotare  = @lv_seqno
-        INTO @ls_head.
-
-      IF sy-subrc <> 0.
-        " not an inward gate entry: park the reading for the outward
-        " Weighment app (other software component) - it reads it through
-        " the released view ZI_MMGE_WB_READING and applies it itself
-        DATA(ls_out) = VALUE zmmge_wb_read( seqno      = lv_seqno
-                                            machine    = to_upper( condense( ls_in-machine ) )
-                                            weight     = lv_weight
-                                            unit       = 'TO'
-                                            capturedat = ls_in-captured_at ).
-        GET TIME STAMP FIELD ls_out-receivedat.
-        MODIFY zmmge_wb_read FROM @ls_out.
-        COMMIT WORK.
-        reply( io_response = response iv_code = 202 iv_status = `OK`
-               iv_message = |Weight { lv_weight } TO stored for seqno { lv_seqno }; the outward Weighment app applies it| ).
+        ORDER BY uuid
+        INTO TABLE @lt_head
+        UP TO 1 ROWS.                                   "#EC CI_NOFIELD
+      IF lt_head IS INITIAL.
+        reply( io_response = response iv_code = 404 iv_status = `ERROR`
+               iv_message = |seqno { lv_seqno } is not known in BTP| ).
         RETURN.
       ENDIF.
-
+      ls_head = lt_head[ 1 ].
       " a draft can also exist with the seqno only on the saved record
       SELECT SINGLE @abap_true FROM zmmge_wght_hd
         WHERE uuid = @ls_head-uuid
         INTO @lv_in_draft.
     ENDIF.
-
     " already applied = the header stage for this seqno is 'R' (received)
     SELECT SINGLE @abap_true FROM zmmge_hdr_t01
       WHERE ( imgseqnogross = @lv_seqno AND grosswtsts = 'R' )
@@ -149,7 +145,7 @@ CLASS ZCL_MM_WB_WEIGHT_HTTP IMPLEMENTATION.
       SELECT SINGLE @abap_true FROM zmmge_wght_hd
         WHERE ( imgseqnogross = @lv_seqno AND grosswtsts = 'R' )
            OR ( imgseqnotare  = @lv_seqno AND tarewtsts  = 'R' )
-        INTO @lv_applied.
+        INTO @lv_applied.    "#EC CI_NOFIELD
     ENDIF.
     IF lv_applied = abap_true.
       reply( io_response = response iv_code = 409 iv_status = `ERROR`

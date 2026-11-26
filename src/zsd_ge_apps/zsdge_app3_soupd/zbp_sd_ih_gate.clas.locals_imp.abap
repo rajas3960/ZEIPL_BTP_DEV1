@@ -201,6 +201,12 @@ CLASS lhc_GateHead IMPLEMENTATION.
       RESULT DATA(lt_head)
       FAILED DATA(lt_failed).
 
+    READ ENTITIES OF zsd_ih_gate IN LOCAL MODE
+      ENTITY GateHead by \_Item
+      ALL FIELDS WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_Item)
+      FAILED DATA(lt_Itemfailed).
+
     DELETE lt_head WHERE Gateentryno IS NOT INITIAL OR Cancelgateentry IS NOT INITIAL.
 
     IF lt_head IS NOT INITIAL.
@@ -783,6 +789,19 @@ CLASS lhc_GateItem IMPLEMENTATION.
         ENDIF.
       ENDIF.
       " === end C
+
+      " === (17.11.2026): will check Vehicle Capacity/Qty more then Possible Loading Qty -> Error Message
+        if ls_headrow-Vehiclecapqty > lv_max.
+        DATA(lv_msg) = |Passing Qty exceeds possible loading Qty{ lv_max }|.
+        APPEND VALUE #( %tky = ls_item-%tky ) TO failed-gateitem.
+        APPEND VALUE #( %tky        = ls_item-%tky
+                        %state_area = 'CHECK_QTY'
+                        %path       = VALUE #( gatehead-%tky = ls_headkey-%tky )
+                        %msg        = new_message_with_text( severity = if_abap_behv_message=>severity-error
+                                                             text     = lv_msg )
+                        %element-Quantity = if_abap_behv=>mk-on ) TO reported-gateitem.
+        ENDIF.
+
     ENDLOOP.
   ENDMETHOD.
 

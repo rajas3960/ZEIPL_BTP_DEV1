@@ -81,7 +81,7 @@ annotate entity ZMMGE_APP2_PE with
   @EndUserText.label: 'OverAll Status'
   @UI.selectionField: [{ position: 05 }]
   Defaultfilter;
-  
+
   @EndUserText.label: 'Gate No'
   @UI.lineItem: [ { position: 60, label: 'Gate No' } ]
   @UI.identification: [ { position: 60, label: 'Gate No' } ]
@@ -97,7 +97,7 @@ annotate entity ZMMGE_APP2_PE with
   @UI.fieldGroup: [ { position: 70, qualifier: 'idSection1', importance: #HIGH } ]
   @Consumption.valueHelpDefinition: [ { entity: { name: 'ZMMGE_I_PLANTVH', element: 'Plant' },
                                         additionalBinding: [ { localElement: 'Plantname', element: 'PlantName' } ] } ]
-  @UI.hidden: true                                        
+  @UI.hidden: true
   Plant;
 
   // Vehicle Information
@@ -121,14 +121,14 @@ annotate entity ZMMGE_APP2_PE with
   @UI.fieldGroup: [ { position: 40, qualifier: 'idSec2', importance: #HIGH } ]
   @Consumption.valueHelpDefinition: [ { entity: { name: 'ZSD_BP_ZTRP_VH', element: 'Transporterid' },
                                       additionalBinding: [ { localElement: 'Transportername', element: 'Transportername',usage: #RESULT } ],
-                                      useForValidation: true } ]  
+                                      useForValidation: true } ]
   Trasporterid;
 
   @EndUserText.label: 'Vehicle Type'
   @UI.identification: [ { position: 120, label: 'Vehicle Type' } ]
   @UI.fieldGroup: [ { position: 50, qualifier: 'idSec2', importance: #HIGH } ]
-    @Consumption.valueHelpDefinition: [{ entity: { name: 'ZGATE_VETYPE_VH', element: 'value_low' },
-  additionalBinding: [{localElement: 'VehicleTypeDescription', element: 'text'}]          }]  
+  @Consumption.valueHelpDefinition: [{ entity: { name: 'ZGATE_VETYPE_VH', element: 'value_low' },
+additionalBinding: [{localElement: 'VehicleTypeDescription', element: 'text'}]          }]
   Vehicletype;
 
   @EndUserText.label: 'License No'
@@ -157,11 +157,11 @@ annotate entity ZMMGE_APP2_PE with
   Address;
   @EndUserText.label: 'Fitness Validity'
   @UI.identification: [ { position: 180, label: 'Fitness Validity' } ]
-  @UI.fieldGroup: [ { position: 110, qualifier: 'idSec2', importance: #HIGH } ]  
+  @UI.fieldGroup: [ { position: 110, qualifier: 'idSec2', importance: #HIGH } ]
   Fitnessvalidity;
   @EndUserText.label: 'Insurance Validity'
   @UI.identification: [ { position: 190, label: 'Insurance Validity' } ]
-  @UI.fieldGroup: [ { position: 120, qualifier: 'idSec2', importance: #HIGH } ]  
+  @UI.fieldGroup: [ { position: 120, qualifier: 'idSec2', importance: #HIGH } ]
   Insurancevalidity;
 
 
@@ -188,12 +188,14 @@ annotate entity ZMMGE_APP2_PE with
   @UI.hidden: true
   Referdate;
 
-  @EndUserText.label: 'LR No'
-  @UI.identification: [ { position: 60, label: 'LR No', qualifier: 'idSection2' } ]
+  //  @EndUserText.label: 'LR No'
+  //  @UI.identification: [ { position: 60, label: 'LR No', qualifier: 'idSection2' } ]
+  @UI.hidden: true
   Lrno;
 
   @EndUserText.label: 'LR Date'
   @UI.identification: [ { position: 70, label: 'LR Date', qualifier: 'idSection2' } ]
+  @UI.hidden: true
   Lrdate;
 
   @EndUserText.label: 'Freight Orderno'
@@ -227,7 +229,7 @@ annotate entity ZMMGE_APP2_PE with
   @UI.dataPoint: { qualifier: 'ChISts', title: 'Gate ChechIn Status' }
   CheckInStatus;
 
-//  @UI.dataPoint: { qualifier: 'UserSt', title: 'Created By' }
+  //  @UI.dataPoint: { qualifier: 'UserSt', title: 'Created By' }
   @UI.hidden: true
   Createdname;
 
@@ -261,7 +263,7 @@ annotate entity ZMMGE_APP2_PE with
   Transportername;
   @UI.hidden: true
   Weighmentindicator;
-    @UI.dataPoint: { qualifier: 'UserSt', title: 'Created By' }  
+  @UI.dataPoint: { qualifier: 'UserSt', title: 'Created By' }
   Createdby;
   @UI.hidden: true
   Lastchangedby;

@@ -28,6 +28,16 @@ define behavior for ZMMGE_APP2_PV1 alias GateItem
   use update;
   use delete;
   use action InbDelivery;
-  use action ChallanInput;
+//  use action ChallanInput;
   use association _Head { with draft; }
+  use association _Challan { create; with draft; }
+}
+
+define behavior for ZMMGE_APP2_PC1 alias GateChallan
+{
+  use update;
+  use delete;
+
+  use association _Head { with draft; }
+  use association _Item { with draft; }
 }

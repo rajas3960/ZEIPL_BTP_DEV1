@@ -141,6 +141,8 @@ CLASS lhc_GateSecHead IMPLEMENTATION.
           INTO @lv_modetext.
       ENDIF.
 
+      TRANSLATE <fs_head>-Vehicleno TO UPPER CASE.
+
       APPEND VALUE #( %tky                = <fs_head>-%tky
                       Gateentryid         = lv_nextid
                       Gateentryiddate     = lv_date
@@ -149,13 +151,15 @@ CLASS lhc_GateSecHead IMPLEMENTATION.
                       Gatenodes           = lv_gatetext
                       Vehicletype         = 'R'
                       Modeoftransporttext = lv_modetext
+                      Vehicleno           = <fs_head>-Vehicleno
                       %control = VALUE #( Gateentryid         = if_abap_behv=>mk-on
                                           Gateentryiddate     = if_abap_behv=>mk-on
                                           Gateentryidtime     = if_abap_behv=>mk-on
                                           Gateentrytypetext   = if_abap_behv=>mk-on
                                           Gatenodes           = if_abap_behv=>mk-on
                                           Vehicletype         = if_abap_behv=>mk-on
-                                          Modeoftransporttext = if_abap_behv=>mk-on ) )
+                                          Modeoftransporttext = if_abap_behv=>mk-on
+                                          Vehicleno = if_abap_behv=>mk-on ) )
              TO lt_update.
     ENDLOOP.
 
@@ -287,6 +291,39 @@ CLASS lhc_GateSecHead IMPLEMENTATION.
         APPEND VALUE #( %tky = ls_head-%tky )
                TO failed-gatesechead.
         ENDIF.
+
+        ""Contact Number Validation
+        DATA(lv_contact) = CONV string( ls_head-Contactdetails ).
+        if lv_contact is NOT INITIAL .
+
+           if lv_contact CN '0123456789'.
+
+        DATA(lv_msgcon) = |Contact Number should contain only numbers|.
+        APPEND VALUE #( %tky        = ls_head-%tky
+                        %state_area = 'Validate_Head'
+                        %msg        = new_message_with_text( severity = if_abap_behv_message=>severity-error
+                                                             text     = lv_msgcon ) )
+               TO reported-gatesechead.
+
+        APPEND VALUE #( %tky = ls_head-%tky )
+               TO failed-gatesechead.
+
+            ENDIF.
+
+        if strlen( lv_contact ) <> 10.
+
+        DATA(lv_msgconlg) = |Contact Number must be exactly 10 digits|.
+        APPEND VALUE #( %tky        = ls_head-%tky
+                        %state_area = 'Validate_Head'
+                        %msg        = new_message_with_text( severity = if_abap_behv_message=>severity-error
+                                                             text     = lv_msgconlg ) )
+               TO reported-gatesechead.
+
+        APPEND VALUE #( %tky = ls_head-%tky )
+               TO failed-gatesechead.
+        ENDIF.
+
+            ENDIF.
 
 
   ENDMETHOD.

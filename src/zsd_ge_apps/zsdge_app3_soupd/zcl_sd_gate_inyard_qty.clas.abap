@@ -41,6 +41,7 @@ CLASS zcl_sd_gate_inyard_qty DEFINITION
              open_qty      TYPE ty_qty,
              inyard_qty    TYPE ty_qty,
              free_qty      TYPE ty_qty,
+             sales_qty     TYPE ty_qty,         "new one added on 17.11.2026
            END OF ty_free,
            tt_free TYPE SORTED TABLE OF ty_free WITH UNIQUE KEY salesdocument salesitem.
 
@@ -68,17 +69,33 @@ CLASS ZCL_SD_GATE_INYARD_QTY IMPLEMENTATION.
       RETURN.
     ENDIF.
 
-    " cancelgateentry was added later: old rows may hold NULL
-    SELECT i~salesdocument, i~salesitem, i~quantity, i~netweight
-      FROM zsdge_sentry_it1 AS i
-      INNER JOIN zsdge_sentry_ht1 AS h ON h~uuid = i~uuid
-      FOR ALL ENTRIES IN @it_keys
-      WHERE i~salesdocument = @it_keys-salesdocument
-        AND i~salesitem     = @it_keys-salesitem
-        AND i~uuid         <> @iv_exclude_uuid
-        AND i~deliveryno    = @space
-        AND ( h~cancelgateentry IS NULL OR h~cancelgateentry <> 'X' )
-      INTO TABLE @DATA(lt_rows).
+    " cancelgateentry was added later: old rows may hold NULL old one commended on 17.11.2026
+*    SELECT i~salesdocument, i~salesitem, i~quantity, i~netweight
+*      FROM zsdge_sentry_it1 AS i
+*      LEFT OUTER JOIN zsdge_sentry_ht1 AS h ON h~uuid = i~uuid
+*      FOR ALL ENTRIES IN @it_keys
+*      WHERE i~salesdocument = @it_keys-salesdocument
+*        AND i~salesitem     = @it_keys-salesitem
+*        AND i~uuid         <> @iv_exclude_uuid
+*        AND i~deliveryno    = @space
+*
+*        AND ( h~cancelgateentry IS NULL OR h~cancelgateentry <> 'X' )
+*      INTO TABLE @DATA(lt_rows).
+
+        "==New One added 17.11.2026
+    SELECT i~salesdocument,
+       i~salesitem,
+       i~quantity,
+       i~netweight
+        FROM zsdge_sentry_it1 AS i
+        INNER JOIN zsdge_sentry_ht1 AS h ON h~uuid = i~uuid
+        INNER JOIN @it_keys AS k ON k~salesdocument = i~salesdocument
+                                AND k~salesitem     = i~salesitem
+        WHERE i~uuid <> @iv_exclude_uuid
+        AND i~deliveryno = @space
+        AND ( h~cancelgateentry IS NULL
+          OR h~cancelgateentry <> 'X' )
+       INTO TABLE @DATA(lt_rows).
 
     LOOP AT lt_rows INTO DATA(ls_row).
       DATA(lv_qty) = COND ty_qty( WHEN ls_row-netweight > 0 THEN ls_row-netweight
@@ -139,6 +156,7 @@ CLASS ZCL_SD_GATE_INYARD_QTY IMPLEMENTATION.
         IF condense( |{ ls_open-sales_document ALPHA = OUT }| ) = lv_key_doc
            AND CONV i( ls_open-sales_document_item ) = lv_key_item.
           ls_free-open_qty = ls_open-open_qty.
+          ls_free-sales_qty = ls_open-sales_qty.          ""new one added on 17.11.2026
           EXIT.
         ENDIF.
       ENDLOOP.

@@ -13,7 +13,7 @@ etag master Lastchangedat
 {
   update ( features : instance );
   //   create /
-  delete;
+  delete ( features : instance );
   //   owned by the Gate Entry app (ZMMGE_APP1_RE)
 
   field ( readonly ) Uuid;
@@ -31,12 +31,15 @@ etag master Lastchangedat
   draft action Activate optimized;
   draft action Resume;
   draft action Discard;
-  draft determine action Prepare                                   // NEW
+  draft determine action Prepare
   {
+    determination ( always ) GateItem~sumChallans;
     validation GateItem~checkFreightOrder;
+    validation GateChallan~checkChallan;
+    validation GateItem~checkG1Item;
   }
 
-  action ( features : instance ) Purchase parameter ZPO_INPUT result [1] $self;
+  action ( features : instance ) Purchase deep parameter ZPO_INPUT result [1] $self;
   action ( features : instance ) GateCheckIn result [1] $self;
   action ( features : instance ) WeightScrn result [1] $self;
   action ( features : instance ) MigoPost parameter ZMM_MIGO_INPUT result [1] $self;
@@ -67,24 +70,61 @@ etag master Lastchangedat
   field ( readonly ) Material, Materialtext, Plant, Plantname, Vendor, Suppliername, Baseunit, Grnqty, Inbounddelivery,
   Quantity, Netweight, Poordertype, Poordertypetext, Orderdate, Gateentryseries, Weightindicator;
   field ( readonly ) Createdby, Createdat, Lastchangedby, Lastchangedat;
-  field ( readonly ) Carrier, Carriername;   // NEW: filled from the freight order
-  field ( mandatory ) Freightorder;                                 // NEW
-
-  determination fillCarrier on modify { field Freightorder; }       // NEW
-  validation checkFreightOrder on save { create; field Freightorder; }   // NEW
+  field ( readonly ) Carrier, Carriername, Incoterms;
+  // challan totals of the challan lines (P6a)
+  field ( readonly ) Challanqty, Chqtyunit, Challantareweight, Challangrossweight, Chbaseunit,
+  Challanno, Challandate, Trasporterid, Lrno, Lrdate, Chdocumt;
+  field ( mandatory ) Freightorder;
 
   association _Head { with draft; }
+  association _Challan { create ( features : instance ); with draft; }
 
-  determination ChallanQtyCal on modify { field Challangrossweight; field Challantareweight; }
+  determination fillCarrier on modify { field Freightorder; }
+  determination sumChallans on save { create; }
+  validation checkFreightOrder on save { create; field Freightorder; }
+  validation checkG1Item on save { create; field Challanqty, Chqtyunit, Materialgroup; }
 
   side effects
   {
-    field Challangrossweight affects field Challannetweight;
-    field Challantareweight affects field Challannetweight;
-    field Freightorder affects field Carrier, field Carriername;     // NEW
+    field Freightorder affects field Carrier, field Carriername;
   }
 
   action ( features : instance ) InbDelivery result [1] $self;
-  action ( features : instance ) ChallanInput parameter ZMM_CH_INPUT result [1] $self;
+
   mapping for zmmge_itm_t01 corresponding;
+}
+
+define behavior for ZMMGE_APP2_IC1 alias GateChallan
+persistent table zmmge_chln_t01
+draft table zmmge_chln_t01d
+lock dependent by _Head
+authorization dependent by _Head
+etag master Lastchangedat
+{
+  update;
+  delete;
+
+  field ( readonly, numbering : managed ) Chlnuuid;
+  field ( readonly ) Uuid, Purchaseorder, Purchaseorderitem, Subgateentryno,
+  Challannetweight, Chqtyunit, Trasportername,
+  Createdby, Createdat, Lastchangedby, Lastchangedat;
+  field ( mandatory ) Challanno, Challandate, Challanqty;
+
+  association _Head { with draft; }
+  association _Item { with draft; }
+
+  determination fillChallan on modify { create; field Challangrossweight, Challantareweight; }
+  determination totalToItem on modify { create; field Challanqty, Challantareweight, Challangrossweight, Challannetweight; }
+  determination setSubGate on save { create; field Challanno; }
+
+  validation checkChallan on save { create; field Challanno, Challandate, Challanqty; }
+
+  side effects
+  {
+    field Challangrossweight affects field Challannetweight, entity _Item;
+    field Challantareweight affects field Challannetweight, entity _Item;
+    field Challanqty affects entity _Item;
+  }
+
+  mapping for zmmge_chln_t01 corresponding;
 }

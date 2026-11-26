@@ -12,6 +12,7 @@ CLASS lcl_load DEFINITION FINAL.
     CLASS-METHODS allowed
       IMPORTING iv_qty            TYPE numeric
                 iv_pct            TYPE numeric
+                iv_sales          TYPE numeric OPTIONAL     "new one added 17.11.2026
       RETURNING VALUE(rv_allowed) TYPE decfloat34.
 
     CLASS-METHODS is_excess
@@ -19,6 +20,7 @@ CLASS lcl_load DEFINITION FINAL.
                 iv_qty           TYPE numeric
                 iv_pct           TYPE numeric
                 iv_delivery      TYPE clike
+                iv_sales          TYPE numeric  OPTIONAL    "new one added 17.11.2026
       RETURNING VALUE(rv_excess) TYPE abap_bool.
 
     "! "Excess 1490/10: net 9.120 > 8.000" (kept under 50 characters)
@@ -28,6 +30,7 @@ CLASS lcl_load DEFINITION FINAL.
                 iv_net         TYPE numeric
                 iv_qty         TYPE numeric
                 iv_pct         TYPE numeric
+                iv_sales          TYPE numeric  OPTIONAL    "new one added 17.11.2026
       RETURNING VALUE(rv_text) TYPE string.
 
     TYPES tt_items TYPE TABLE FOR READ RESULT zsd_ih_weight\\WeightItem.
@@ -54,17 +57,19 @@ ENDCLASS.
 CLASS lcl_load IMPLEMENTATION.
 
   METHOD allowed.
-    rv_allowed = iv_qty + iv_qty * iv_pct / 100.
+*    rv_allowed = iv_qty + iv_qty * iv_pct / 100.       "old
+
+    rv_allowed = iv_qty + ( iv_sales * ( iv_pct / 100 ) ).    "new
   ENDMETHOD.
 
   METHOD is_excess.
     rv_excess = xsdbool( iv_delivery IS INITIAL
-                         AND iv_net > allowed( iv_qty = iv_qty iv_pct = iv_pct ) ).
+                         AND iv_net > allowed( iv_qty = iv_qty iv_pct = iv_pct iv_sales = iv_sales  ) ).
   ENDMETHOD.
 
   METHOD excess_text.
     DATA(lv_net)     = CONV decfloat34( iv_net ).
-    DATA(lv_allowed) = allowed( iv_qty = iv_qty iv_pct = iv_pct ).
+    DATA(lv_allowed) = allowed( iv_qty = iv_qty iv_pct = iv_pct iv_sales = iv_sales ).
     rv_text = |Excess { condense( |{ iv_so ALPHA = OUT }| ) }/{ CONV i( iv_item ) }: | &&
               |net { lv_net DECIMALS = 3 } > { lv_allowed DECIMALS = 3 }|.
   ENDMETHOD.
@@ -1259,6 +1264,8 @@ CLASS lhc_WeightHead IMPLEMENTATION.
 
     DATA lv_excess_text TYPE string.
 
+
+
     READ ENTITIES OF zsd_ih_weight IN LOCAL MODE
       ENTITY WeightHead
         ALL FIELDS WITH CORRESPONDING #( keys )
@@ -1267,20 +1274,44 @@ CLASS lhc_WeightHead IMPLEMENTATION.
         ALL FIELDS WITH CORRESPONDING #( keys )
         RESULT DATA(lt_item).
 
+
+    DATA lt_claim  TYPE zcl_sd_gate_inyard_qty=>tt_key. ""New one added on 17.11.2026
+
     LOOP AT lt_head INTO DATA(ls_head).
 
       " 05.11.2026: no delivery while a line is above assigned qty + tolerance
       " (the button is disabled then; this covers a stale screen)
       CLEAR lv_excess_text.
       LOOP AT lt_item INTO DATA(ls_chk) WHERE Uuid = ls_head-Uuid.
+
+          INSERT VALUE #( salesdocument = ls_chk-Salesdocument salesitem = ls_chk-Salesitem ) INTO TABLE lt_claim.
+
+       if lt_claim is NOT INITIAL.
+        TRY.
+            DATA(lt_free) = zcl_sd_gate_inyard_qty=>get_free( it_keys         = lt_claim
+                                                              iv_exclude_uuid = ls_head-Uuid ).
+          CATCH cx_static_check INTO DATA(lx_free).
+            APPEND VALUE #( %tky = ls_head-%tky
+                            %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information
+                                                          text     = |S/4 open qty not read: { lx_free->get_text( ) }| ) )
+                   TO reported-weighthead.
+        ENDTRY.
+       ENDIF.
+
+        DATA(lv_open) = value #( lt_free[ 1 ] OPTIONAL ).
+
         IF lcl_load=>is_excess( iv_net      = ls_chk-Netweight
-                                iv_qty      = ls_chk-Quantity
+*                                iv_qty      = ls_chk-Quantity  "old logic commended on 17.11.2026
+                                iv_qty      = lv_open-open_qty       " new Logic Added on 17.11.2026
                                 iv_pct      = ls_chk-Overdeltolpct
+                                iv_sales    = lv_open-sales_qty         " new Logic Added on 17.11.2026
                                 iv_delivery = ls_chk-Deliveryno ) = abap_true.
           lv_excess_text = lcl_load=>excess_text( iv_so   = ls_chk-Salesdocument
                                                   iv_item = ls_chk-Salesitem
                                                   iv_net  = ls_chk-Netweight
-                                                  iv_qty  = ls_chk-Quantity
+*                                                  iv_qty  = ls_chk-Quantity     "old logic commended on 17.11.2026
+                                                  iv_qty  = lv_open-open_qty     " new Logic Added on 17.11.2026
+                                                  iv_sales    = lv_open-sales_qty         " new Logic Added on 17.11.2026
                                                   iv_pct  = ls_chk-Overdeltolpct ).
           EXIT.
         ENDIF.

@@ -1,0 +1,4 @@
+@EndUserText.label: 'RGP NRGP Outstanding Report SD'
+define service ZMM_RGP_NRGP_SD {
+  expose ZMM_RGP_NRGP_CV as Open_Quantiy_Status;
+}

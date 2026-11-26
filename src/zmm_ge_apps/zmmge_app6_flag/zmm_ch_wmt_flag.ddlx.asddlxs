@@ -1,48 +1,79 @@
 @Metadata.layer: #CUSTOMER
 @UI: {
-  headerInfo: { typeName: 'Weighment Flag - Master',
-                typeNamePlural: 'Weighment Flag - Master',
-                title: { type: #STANDARD, label: 'Weighment Flag - Master', value: 'Materialgroup' },
-                            description: { value: 'Gateentryseries' } } }
+  headerInfo: { typeName:       'Weighment Flag',
+                typeNamePlural: 'Weighment Flags',
+                title:       { type: #STANDARD, value: 'Gateentryseries' },
+                description: { type: #STANDARD, value: 'Materialgroup' } },
+  presentationVariant: [ { sortOrder: [ { by: 'Gateentryseries', direction: #ASC },
+                                        { by: 'Materialgroup',   direction: #ASC } ],
+                           visualizations: [ { type: #AS_LINEITEM } ] } ] }
 
-annotate entity ZMM_CH_WMT_FLAG
-    with 
+annotate entity ZMM_CH_WMT_FLAG with
 {
-  @UI.facet: [ { id:              'Header',
-                      purpose:         #STANDARD,
-                      type:            #IDENTIFICATION_REFERENCE,
-                      label:           'Weighment Master',
-                      position:        10 } ]
-  @UI: { lineItem: [{ position: 10, label: 'Gate Entry Type'}],
-  identification: [{ position: 10, label: 'Gate Entry Type' } ] }
-  @EndUserText.label: 'Gate Entry Type'  
-//  @Consumption.valueHelpDefinition: [{ entity: { name: 'ZMMGATE_SERIES_VH', element: 'value_low' },distinctValues: true }]                           
-Gateentryseries;
-  @UI: { lineItem: [{ position: 20, label: 'Material Group'}],
-  identification: [{ position: 20, label: 'Material Group' } ] }
+  @UI.facet: [ { id:       'General',
+                 purpose:  #STANDARD,
+                 type:     #IDENTIFICATION_REFERENCE,
+                 label:    'Weighment Flag',
+                 position: 10 },
+               { id:              'ChangeLog',
+                 purpose:         #STANDARD,
+                 type:            #FIELDGROUP_REFERENCE,
+                 targetQualifier: 'ChangeLog',
+                 label:           'Change Log',
+                 position:        20 } ]
+
+  @UI: { lineItem:       [ { position: 10, label: 'Gate Entry Type' } ],
+         identification: [ { position: 10, label: 'Gate Entry Type' } ],
+         selectionField: [ { position: 10 } ],
+         textArrangement: #TEXT_SEPARATE }
+  @EndUserText.label: 'Gate Entry Type'
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZGATE_SERIES_VH', element: 'value_low' },
+                                        distinctValues: true,
+                                        useForValidation: true } ]
+  Gateentryseries;
+
+  @UI: { lineItem:       [ { position: 15, label: 'Gate Entry Type Description' } ],
+         identification: [ { position: 15, label: 'Gate Entry Type Description' } ] }
+  @EndUserText.label: 'Gate Entry Type Description'
+  Gateentryseriesdes;
+
+  @UI: { lineItem:       [ { position: 20, label: 'Material Group' } ],
+         identification: [ { position: 20, label: 'Material Group' } ],
+         selectionField: [ { position: 20 } ],
+         textArrangement: #TEXT_SEPARATE }
   @EndUserText.label: 'Material Group'
-//  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZMM_MATGROUP_VH', element: 'Materialgroup' }} ]
-  @UI.selectionField: [{ position: 10 }]  
-Materialgroup;
-  @UI: { lineItem: [{ position: 30, label: 'Weighment Flag'}],
-  identification: [{ position: 30, label: 'Weighment Flag' } ] }
+  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZMMGE_I_MATGRPVH', element: 'MaterialGroup' },
+                                        useForValidation: true } ]
+  Materialgroup;
+
+  @UI: { lineItem:       [ { position: 25, label: 'Material Group Description' } ],
+         identification: [ { position: 25, label: 'Material Group Description' } ] }
+  @EndUserText.label: 'Material Group Description'
+  Materialgroupdes;
+
+  @UI: { lineItem:       [ { position: 30, label: 'Weighment Flag' } ],
+         identification: [ { position: 30, label: 'Weighment Flag' } ],
+         selectionField: [ { position: 30 } ] }
   @EndUserText.label: 'Weighment Flag'
-Weighmentflag;
-  @UI: { lineItem: [{ position: 40, label: 'Challan Qty Flag'}],
-  identification: [{ position: 40, label: 'Challan Qty Flag' } ] }
+  Weighmentflag;
+
+  @UI: { lineItem:       [ { position: 40, label: 'Challan Qty Flag' } ],
+         identification: [ { position: 40, label: 'Challan Qty Flag' } ],
+         selectionField: [ { position: 40 } ] }
   @EndUserText.label: 'Challan Qty Flag'
-Challanqtyflag;
-@UI.hidden: true
-Gateentryseriesdes;
-@UI.hidden: true
-Materialgroupdes;
-@UI.hidden: true
-Createdby;
-@UI.hidden: true
-Createdat;
-@UI.hidden: true
-Lastchangedby;
-@UI.hidden: true
-Lastchangedat;
-    
+  Challanqtyflag;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeLog', position: 10, label: 'Created By' } ]
+  Createdby;
+
+  @UI.fieldGroup: [ { qualifier: 'ChangeLog', position: 20, label: 'Created On' } ]
+  Createdat;
+
+  @UI: { lineItem:   [ { position: 50, label: 'Last Changed By' } ],
+         fieldGroup: [ { qualifier: 'ChangeLog', position: 30, label: 'Last Changed By' } ] }
+  Lastchangedby;
+
+  @UI: { lineItem:   [ { position: 60, label: 'Last Changed On' } ],
+         fieldGroup: [ { qualifier: 'ChangeLog', position: 40, label: 'Last Changed On' } ] }
+  Lastchangedat;
 }

@@ -104,6 +104,9 @@ CLASS zsd_s4_soupd_scm DEFINITION
         plant_country_name   TYPE c LENGTH 50,
         "! PlantRegionName
         plant_region_name    TYPE c LENGTH 20,
+*        "! IncotermsClassification
+        incoterms_classification   TYPE c LENGTH 3, ""New one added on 24.11.2026
+
       END OF tys_return_item_type,
       "! <p class="shorttext synchronized">List of ReturnItemType</p>
       tyt_return_item_type TYPE STANDARD TABLE OF tys_return_item_type WITH DEFAULT KEY.
@@ -673,6 +676,14 @@ CLASS ZSD_S4_SOUPD_SCM IMPLEMENTATION.
     lo_primitive_property->set_edm_type( 'String' ) ##NO_TEXT.
     lo_primitive_property->set_max_length( 20 ) ##NUMBER_OK.
     lo_primitive_property->set_is_nullable( ).
+
+    ""new one added 24.11.2026
+    lo_primitive_property = lo_entity_type->get_primitive_property( 'INCOTERMS_CLASSIFICATION' ).
+    lo_primitive_property->set_edm_name( 'IncotermsClassification' ) ##NO_TEXT.
+    lo_primitive_property->set_edm_type( 'String' ) ##NO_TEXT.
+    lo_primitive_property->set_max_length( 3 ) ##NUMBER_OK.
+    lo_primitive_property->set_is_nullable( ).
+
 
   ENDMETHOD.
 

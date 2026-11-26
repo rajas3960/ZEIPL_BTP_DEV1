@@ -83,8 +83,10 @@ define view entity ZMMGE_APP2_PV1
           Freightorder,
           Carrier,
           Carriername,
+          Incoterms,
           @EndUserText.label: 'Gate Entry Date'
           _Head.Gateentrydate as Gateentrydate,
           /* Associations */
-          _Head : redirected to parent ZMMGE_APP2_PE
+          _Head    : redirected to parent ZMMGE_APP2_PE,
+          _Challan : redirected to composition child ZMMGE_APP2_PC1
 }

@@ -9,16 +9,20 @@ annotate entity ZMMGE_APP2_PV1 with
                  purpose: #STANDARD,
                  type: #IDENTIFICATION_REFERENCE,
                  label: 'Inventory Item',
-                 position: 10 } ]
+                 position: 10 },
+               { id: 'Challans',
+                 purpose: #STANDARD,
+                 type: #LINEITEM_REFERENCE,
+                 label: 'Challans',
+                 position: 20,
+                 targetElement: '_Challan' } ]
 
   @UI.hidden: true
   Uuid;
 
-  @UI: { lineItem:       [ { position: 10, label: 'Item' },
-  //                           { type: #FOR_ACTION, dataAction: 'InbDelivery', label: 'Create Inbound', position: 10, invocationGrouping: #CHANGE_SET } ,
-                           { type: #FOR_ACTION, dataAction: 'ChallanInput', label: 'Challan Details', position: 20, invocationGrouping: #CHANGE_SET } ],
+  @UI: { lineItem:       [ { position: 10, label: 'Item' } ],
          identification: [ { position: 10, label: 'Item' } ] }
-  @EndUserText.label: 'Order No'
+  @EndUserText.label: 'Order Line'
   Purchaseorderitem;
 
   @UI: { lineItem:       [ { position: 20, label: 'Item Code' } ],
@@ -29,9 +33,12 @@ annotate entity ZMMGE_APP2_PV1 with
   @UI.hidden: true
   Materialtext;
 
-  @UI: { lineItem:       [ { position: 35, label: 'Sub-Series Gate No' } ],
-         identification: [ { position: 35, label: 'Sub-Series Gate No' } ] }
-  @EndUserText.label: 'Sub-Series Gate No'
+  @UI: { lineItem:       [ { position: 25, label: 'Incoterms' } ],
+         identification: [ { position: 25, label: 'Incoterms' } ] }
+  @EndUserText.label: 'Incoterms'
+  Incoterms;
+
+  @UI.hidden: true
   Subgateentryno;
 
   @UI: { lineItem:       [ { position: 40, label: 'PO Order No' } ],
@@ -70,9 +77,10 @@ annotate entity ZMMGE_APP2_PV1 with
   @EndUserText.label: 'Pending Qty'
   Pendqty;
 
-  @UI: { lineItem:       [ { position: 89, label: 'GR Post Qty' } ],
-         identification: [ { position: 89, label: 'GR Post Qty' } ] }
-  @EndUserText.label: 'GR Post Qty'
+  //  @UI: { lineItem:       [ { position: 89, label: 'GR Post Qty' } ],
+  //         identification: [ { position: 89, label: 'GR Post Qty' } ] }
+  //  @EndUserText.label: 'GR Post Qty'
+  @UI.hidden: true
   Grnqty;
 
   @UI.hidden: true
@@ -85,58 +93,49 @@ annotate entity ZMMGE_APP2_PV1 with
   @UI: { lineItem:       [ { position: 91, label: 'Freight Order' } ],
          identification: [ { position: 91, label: 'Freight Order' } ] }
   @EndUserText.label: 'Freight Order'
-  freightorder;
+  Freightorder;
 
   @UI: { lineItem:       [ { position: 92, label: 'Carrier' } ],
          identification: [ { position: 92, label: 'Carrier' } ] }
   @EndUserText.label: 'Carrier'
-  carrier;
+  Carrier;
 
   @UI: { lineItem:       [ { position: 93, label: 'Carrier Name' } ],
          identification: [ { position: 93, label: 'Carrier Name' } ] }
   @EndUserText.label: 'Carrier Name'
-  carriername;
+  Carriername;
 
   @UI.hidden: true
-  gateentrydate;
+  Gateentrydate;
 
-  @UI: { lineItem:       [ { position: 100, label: 'Net Weight' } ],
-         identification: [ { position: 100, label: 'Net Weight' } ] }
-  @EndUserText.label: 'Net Weight'
+  //  @UI: { lineItem:       [ { position: 100, label: 'Net Weight' } ],
+  //         identification: [ { position: 100, label: 'Net Weight' } ] }
+  //  @EndUserText.label: 'Net Weight'
+  @UI.hidden: true
   Netweight;
 
-  @UI: { lineItem:       [ { position: 110, label: 'Challan No' } ],
-         identification: [ { position: 110, label: 'Challan No' } ] }
-  @EndUserText.label: 'Challan No'
+  //  @UI: { lineItem:       [ { position: 110, label: 'Challan No' } ],
+  //         identification: [ { position: 110, label: 'Challan No' } ] }
+  //  @EndUserText.label: 'Challan No'
+  @UI.hidden: true
   Challanno;
 
-  @UI: { lineItem:       [ { position: 120, label: 'Challan Date' } ],
-         identification: [ { position: 120, label: 'Challan Date' } ] }
-  @EndUserText.label: 'Challan Date'
+  @UI.hidden: true
   Challandate;
-  @UI: {  lineItem:       [ { position: 125, label: 'Transport' } ],
-        identification:   [ { position: 125, label: 'Transport' } ]}
-  @EndUserText.label: 'Transport'
-  @Consumption.valueHelpDefinition: [ { entity: { name: 'ZSD_BP_ZTRP_VH', element: 'Transporterid' }  } ]
+  @UI.hidden: true
   Trasporterid;
-  @UI: { lineItem:       [ { position: 130, label: 'Challan TaWt' } ],
-         identification: [ { position: 130, label: 'Challan TaWt' } ] }
-  @EndUserText.label: 'Challan TaWt'
+  @UI.hidden: true
   Challantareweight;
 
-  @UI: { lineItem:       [ { position: 140, label: 'Challan GrsWt' } ],
-         identification: [ { position: 140, label: 'Challan GrsWt' } ] }
-  @EndUserText.label: 'Challan GrsWt'
+  @UI.hidden: true
   Challangrossweight;
 
-  @UI: { lineItem:       [ { position: 150, label: 'Challan NetWt' } ],
-         identification: [ { position: 150, label: 'Challan NetWt' } ] }
-  @EndUserText.label: 'Challan NetWt'
+  @UI.hidden: true
   Challannetweight;
 
-  @UI: { lineItem:       [ { position: 155, label: 'Challan Qty' } ],
-         identification: [ { position: 155, label: 'Challan Qty' } ] }
-  @EndUserText.label: 'Challan Qty'
+  @UI: { lineItem:       [ { position: 89, label: 'Challan Qty (total)', importance: #HIGH } ],
+          identification: [ { position: 89, label: 'Challan Qty (total)' } ] }
+  @EndUserText.label: 'Challan Qty (total)'
   Challanqty;
 
   @UI: { lineItem:       [ { position: 160, label: 'Order Type' } ],
@@ -159,9 +158,7 @@ annotate entity ZMMGE_APP2_PV1 with
   @EndUserText.label: 'Purchase Document'
   Podocumt;
 
-  @UI: { lineItem:       [ { position: 180, label: 'Challan Document' } ],
-         identification: [ { position: 180, label: 'Challan Document' } ] }
-  @EndUserText.label: 'Challan Document'
+  @UI.hidden: true
   Chdocumt;
 
   @UI.hidden: true
@@ -183,13 +180,9 @@ annotate entity ZMMGE_APP2_PV1 with
          identification: [ { position: 195, label: 'Inbound Delivery' } ] }
   @EndUserText.label: 'Inbound Delivery'
   Inbounddelivery;
-  @UI: {  lineItem:       [ { position: 200, label: 'LR No' } ],
-        identification:   [ { position: 200, label: 'LR No' } ]}
-  @EndUserText.label: 'LR No'
+  @UI.hidden: true
   Lrno;
-  @UI: {  lineItem:       [ { position: 210, label: 'LR Date' } ],
-        identification:   [ { position: 210, label: 'LR Date' } ]}
-  @EndUserText.label: 'LR Date'
+  @UI.hidden: true
   Lrdate;
 
   @UI: { lineItem:       [ { position: 220, label: 'Remarks' } ],
@@ -225,4 +218,7 @@ annotate entity ZMMGE_APP2_PV1 with
   Lastchangedat;
   @UI.hidden: true
   _Head;
+  @UI.hidden: true
+  _Challan;
+
 }

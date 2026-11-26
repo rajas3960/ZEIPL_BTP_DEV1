@@ -30,7 +30,7 @@ etag master Lastchangedat
   draft determine action Prepare;
 
   action ( features : instance ) GatePrint result [1] $self;
-  validation Validation on save { create;  }
+  validation Validation on save { create; }
   determination headmodify on save { create; }
   determination uptransporter on modify{ field Transportid;}
   association _Item { create; with draft; }

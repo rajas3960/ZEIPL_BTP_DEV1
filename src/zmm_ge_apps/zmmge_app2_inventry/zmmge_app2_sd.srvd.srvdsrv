@@ -2,4 +2,5 @@
 define service ZMMGE_APP2_SD {
   expose ZMMGE_APP2_PE  as GateMainHead;
   expose ZMMGE_APP2_PV1 as GateMainItem;
+  expose ZMMGE_APP2_PC1 as GateChallan;
 }

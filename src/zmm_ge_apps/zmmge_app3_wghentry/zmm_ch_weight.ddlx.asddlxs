@@ -48,9 +48,9 @@ annotate entity ZMM_CH_WEIGHT with
   @UI.lineItem: [ { position: 10, label: 'Gate Entry No' } ]
   @UI.identification: [ { position: 10, label: 'Gate Entry No' },
                         { type: #FOR_ACTION, dataAction: 'AutoFetchWt', label: 'Auto Fetch Weight', position: 30 },
-//                      { type: #FOR_ACTION, dataAction: 'AutoFetchtareWt', label: 'Auto Tare Weight', position: 35 },
+  //                      { type: #FOR_ACTION, dataAction: 'AutoFetchtareWt', label: 'Auto Tare Weight', position: 35 },
                         { type: #FOR_ACTION, dataAction: 'ManualFetchWt', label: 'Manual Weight', position: 40 },
-//                      { type: #FOR_ACTION, dataAction: 'tarewtcapture', label: 'Tare Weight', position: 45 },
+  //                      { type: #FOR_ACTION, dataAction: 'tarewtcapture', label: 'Tare Weight', position: 45 },
                         { type: #FOR_ACTION, dataAction: 'Weighmentform', label: 'Weightment Slip', position: 50 },
                         { type: #FOR_ACTION, dataAction: 'RecaptureGross', label: 'Recapture Gross Images', position: 60 },
                         { type: #FOR_ACTION, dataAction: 'RecaptureTare', label: 'Recapture Tare Images', position: 65 },
@@ -76,11 +76,11 @@ annotate entity ZMM_CH_WEIGHT with
   @EndUserText.label: 'OverAll Status'
   @UI.lineItem: [ { position: 35, label: 'OverAll Status',criticality: 'Criticality' } ]
   @UI.identification: [ { position: 35, label: 'OverAll Status' } ]
-  @UI.fieldGroup: [ { position: 35, qualifier: 'idSection1', importance: #HIGH } ] 
-  @UI.selectionField: [{ position: 07 }] 
+  @UI.fieldGroup: [ { position: 35, qualifier: 'idSection1', importance: #HIGH } ]
+  @UI.selectionField: [{ position: 07 }]
   Overallstatus;
-  @EndUserText.label: 'OverAll Status' 
-  @UI.selectionField: [{ position: 05 }] 
+  @EndUserText.label: 'OverAll Status'
+  @UI.selectionField: [{ position: 05 }]
   Defaultfilter;
   @EndUserText.label: 'Plant'
   @UI.lineItem: [ { position: 40, label: 'Plant' } ]
@@ -142,11 +142,11 @@ annotate entity ZMM_CH_WEIGHT with
   Chaseno;
   @EndUserText.label: 'Fitness Validity'
   @UI.identification: [ { position: 110, label: 'Fitness Validity' } ]
-  @UI.fieldGroup: [ { position: 90, qualifier: 'idSec2', importance: #HIGH } ]  
+  @UI.fieldGroup: [ { position: 90, qualifier: 'idSec2', importance: #HIGH } ]
   Fitnessvalidity;
   @EndUserText.label: 'Insurance Validity'
   @UI.identification: [ { position: 120, label: 'Insurance Validity' } ]
-  @UI.fieldGroup: [ { position: 100, qualifier: 'idSec2', importance: #HIGH } ]  
+  @UI.fieldGroup: [ { position: 100, qualifier: 'idSec2', importance: #HIGH } ]
   Insurancevalidity;
 
 
@@ -211,13 +211,13 @@ annotate entity ZMM_CH_WEIGHT with
   @EndUserText.label: 'Ref Date'
   @UI.identification: [ { position: 40, label: 'Ref Date', qualifier: 'idSection2' } ]
   Referdate;
-
-  @EndUserText.label: 'LR No.'
-  @UI.identification: [ { position: 50, label: 'LR No.', qualifier: 'idSection2' } ]
+  @UI.hidden: true
+  //  @EndUserText.label: 'LR No.'
+  //  @UI.identification: [ { position: 50, label: 'LR No.', qualifier: 'idSection2' } ]
   Lrno;
-
-  @EndUserText.label: 'LR Date'
-  @UI.identification: [ { position: 60, label: 'LR Date', qualifier: 'idSection2' } ]
+  @UI.hidden: true
+  //  @EndUserText.label: 'LR Date'
+  //  @UI.identification: [ { position: 60, label: 'LR Date', qualifier: 'idSection2' } ]
   Lrdate;
 
   @EndUserText.label: 'ERP Referenceno'
@@ -249,8 +249,8 @@ annotate entity ZMM_CH_WEIGHT with
   @UI.dataPoint: { qualifier: 'UnEnd', title: 'Unload End Status' }
   Unldendsts;
 
-//  @UI.dataPoint: { qualifier: 'ImSts', title: 'Image Validation Status' }
-//  ImageValStatus;
+  //  @UI.dataPoint: { qualifier: 'ImSts', title: 'Image Validation Status' }
+  //  ImageValStatus;
 
   @UI.hidden: true
   Weighfilename;
@@ -332,7 +332,7 @@ annotate entity ZMM_CH_WEIGHT with
   @UI.fieldGroup: [ { position: 50, qualifier: 'idSec6', label: 'Reject Reason' } ]
   Imgrejreason;
   @EndUserText.label: 'Inbound Delivery'
-  @UI.fieldGroup: [ { position: 60, qualifier: 'idSec6', label: 'Inbound Delivery' } ]  
+  @UI.fieldGroup: [ { position: 60, qualifier: 'idSec6', label: 'Inbound Delivery' } ]
   Inbounddlvy;
   @UI.hidden: true
   Createdby;

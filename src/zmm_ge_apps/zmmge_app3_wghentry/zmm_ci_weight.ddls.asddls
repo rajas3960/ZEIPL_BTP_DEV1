@@ -5,6 +5,9 @@
 @Metadata.allowExtensions: true
 define view entity ZMM_CI_WEIGHT
   as projection on ZMM_II_WEIGHT
+  association [0..*] to ZMM_WEIGHT_CHLN as _Challan on  _Challan.Uuid              = $projection.Uuid
+                                                    and _Challan.Purchaseorder     = $projection.Purchaseorder
+                                                    and _Challan.Purchaseorderitem = $projection.Purchaseorderitem
 {
   key Uuid,
   key Purchaseorder,
@@ -68,5 +71,6 @@ define view entity ZMM_CI_WEIGHT
       Lastchangedby,
       Lastchangedat,
       /* Associations */
+      _Challan,
       _Head : redirected to parent ZMM_CH_WEIGHT
 }

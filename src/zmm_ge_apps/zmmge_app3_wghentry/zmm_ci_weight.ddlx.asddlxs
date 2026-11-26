@@ -7,10 +7,16 @@
 annotate entity ZMM_CI_WEIGHT with
 {
   @UI.facet: [ { id: 'Header',
-                 purpose: #STANDARD,
-                 type: #IDENTIFICATION_REFERENCE,
-                 label: 'Inventory Item',
-                 position: 10 } ]
+               purpose: #STANDARD,
+               type: #IDENTIFICATION_REFERENCE,
+               label: 'Inventory Item',
+               position: 10 },
+             { id: 'Challans',
+               purpose: #STANDARD,
+               type: #LINEITEM_REFERENCE,
+               label: 'Challans',
+               position: 20,
+               targetElement: '_Challan' } ]
 
   @UI.hidden: true
   Uuid;
@@ -77,37 +83,40 @@ annotate entity ZMM_CI_WEIGHT with
          identification: [ { position: 90, label: 'Net Weight' } ] }
   @EndUserText.label: 'Net Weight'
   Netweight;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 95, label: 'Challan No' } ],
          identification: [ { position: 95, label: 'Challan No' } ] }
   @EndUserText.label: 'Challan No'
   Challanno;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 100, label: 'Challan Date' } ],
          identification: [ { position: 100, label: 'Challan Date' } ] }
   @EndUserText.label: 'Challan Date'
   Challandate;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 105, label: 'Challan Tare Wt' } ],
          identification: [ { position: 105, label: 'Challan Tare Wt' } ] }
   @EndUserText.label: 'Challan Tare Wt'
   Challantareweight;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 110, label: 'Challan Gross Wt' } ],
          identification: [ { position: 110, label: 'Challan Gross Wt' } ] }
   @EndUserText.label: 'Challan Gross Wt'
   Challangrossweight;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 115, label: 'Challan Net Wt' } ],
          identification: [ { position: 115, label: 'Challan Net Wt' } ] }
   @EndUserText.label: 'Challan Net Wt'
   Challannetweight;
 
-  @UI: { lineItem:       [ { position: 120, label: 'Challan Qty' } ],
-         identification: [ { position: 120, label: 'Challan Qty' } ] }
-  @EndUserText.label: 'Challan Qty'
+  @UI: { lineItem:       [ { position: 95, label: 'Challan Qty (total)' } ],
+        identification: [ { position: 95, label: 'Challan Qty (total)' } ] }
+  @EndUserText.label: 'Challan Qty (total)'
   Challanqty;
-
+  @UI: { lineItem:       [ { position: 96, label: 'Shortage Qty' } ],
+         identification: [ { position: 96, label: 'Shortage Qty' } ] }
+  @EndUserText.label: 'Shortage Qty'
+  Shortageqty;
   @UI: { lineItem:       [ { position: 130, label: 'PO Order Type' } ],
          identification: [ { position: 130, label: 'PO Order Type' } ] }
   @EndUserText.label: 'PO Order Type'
@@ -127,7 +136,7 @@ annotate entity ZMM_CI_WEIGHT with
          identification: [ { position: 160, label: 'Purchase Document' } ] }
   @EndUserText.label: 'Purchase Document'
   Podocumt;
-
+  @UI.hidden: true
   @UI: { lineItem:       [ { position: 170, label: 'Challan Document' } ],
          identification: [ { position: 170, label: 'Challan Document' } ] }
   @EndUserText.label: 'Challan Document'
@@ -142,10 +151,7 @@ annotate entity ZMM_CI_WEIGHT with
          identification: [ { position: 190, label: 'Remark' } ] }
   @EndUserText.label: 'Remark'
   Remark;
-  @UI: { lineItem:       [ { position: 195, label: 'Shortage Qty' } ],
-       identification: [ { position: 195, label: 'Shortage Qty' } ] }
-  @EndUserText.label: 'Shortage Qty'
-  Shortageqty;
+
   @UI: { lineItem:       [ { position: 200, label: 'Weigment Date' } ],
        identification: [ { position: 200, label: 'Weigment Date' } ] }
   @EndUserText.label: 'Weigment Date'
@@ -195,4 +201,6 @@ annotate entity ZMM_CI_WEIGHT with
   @UI.hidden: true
   /* Associations */
   _Head;
+  @UI.hidden: true
+  _Challan;
 }

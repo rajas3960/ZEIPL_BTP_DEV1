@@ -73,8 +73,10 @@ define root view entity ZMM_IH_WEIGHT
       a.materialdocument                                                       as Materialdocument,
       a.materialdocumentyear                                                   as Materialdocumentyear,
       a.unloadendindi                                                          as Unloadendindi,
-      b.DecNetWt                                                               as DecNetWt,
-      b.DecTareWt                                                              as DecTareWt,
+      // truck values from the head once the tare step stored them (G1, G2);
+      // older entries keep the sum of the PO lines
+      cast( case when a.netwt <> 0 then a.netwt  else b.DecNetWt  end as abap.dec(13,3) ) as DecNetWt,
+      cast( case when a.netwt <> 0 then a.tarewt else b.DecTareWt end as abap.dec(13,3) ) as DecTareWt,
       a.imgseqnogross                                                          as Imgseqnogross,
       a.imgseqnotare                                                           as Imgseqnotare,
       a.grosswtsts                                                             as Grosswtsts,

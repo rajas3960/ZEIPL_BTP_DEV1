@@ -1,0 +1,8 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+
+define behavior for ZPO_INPUT alias PoInput with control
+{
+  field ( mandatory : execute ) PurchaseOrder, PurchaseOrderItem;
+}

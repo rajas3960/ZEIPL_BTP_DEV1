@@ -5,20 +5,26 @@ with draft;
 define behavior for ZMM_IH_WMT_FLAG alias weighFlag
 persistent table zmmge_wghflg_t01
 draft table zmmge_wghflg_dt
-lock master total etag Lastchangedby
-authorization master ( instance )
-etag master Lastchangedby
+lock master total etag Lastchangedat
+authorization master ( global )
+etag master Lastchangedat
 {
-  create ( authorization : global );
-  update(features : instance);
-  delete(features : instance);
-  field ( readonly : update ) Gateentryseries, Materialgroup;
+  create;
+  update;
+  delete;
 
-  draft action ( features : instance ) Edit;
+  field ( mandatory : create, readonly : update ) Gateentryseries, Materialgroup;
+  field ( readonly ) Gateentryseriesdes, Materialgroupdes,
+  Createdby, Createdat, Lastchangedby, Lastchangedat;
+
+  determination fillTexts on modify { create; }
+  validation validateKeys on save { create; }
+
+  draft action Edit;
   draft action Activate optimized;
   draft action Resume;
   draft action Discard;
-  draft determine action Prepare;
+  draft determine action Prepare { validation validateKeys; }
 
- mapping for zmmge_wghflg_t01 corresponding;
+  mapping for zmmge_wghflg_t01 corresponding;
 }

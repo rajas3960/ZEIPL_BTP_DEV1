@@ -31,7 +31,7 @@ authorization master ( instance )
   draft action Activate optimized;
   draft action Resume;
   draft action Discard;
-  draft determine action Prepare;
+  draft determine action Prepare { validation UnloadItem~checkG2Unload; }
 
   action ( features : instance ) Unloadst result [1] $self;
   action ( features : instance ) UnloadEnd result [1] $self;
@@ -52,6 +52,10 @@ authorization dependent by _Head
   field ( readonly ) Vendor, Suppliername, Gateentryno, Material, Materialtext, Plant, Plantname,
   Baseunit, Quantity, Remark, Tareweight, Grossweight, Netweight,
   Createdby, Createdat, Lastchangedby, Lastchangedat;
+
+  field ( features : instance ) Unloadind;
+
+  validation checkG2Unload on save { field Unloadind; }
 
   association _Head { with draft; }
 

@@ -131,11 +131,13 @@ CLASS lhc_GateSecEntry IMPLEMENTATION.
                 ENDIF.
 
 ************************************************************************
+                TRANSLATE <ls_head>-Vehicleno TO UPPER CASE.
+
                 MODIFY ENTITIES OF zmmge_app1_re IN LOCAL MODE
                 ENTITY GateSecEntry
                 UPDATE
                 FIELDS ( Gateentryid Gateentryiddate  Gateentryseriesdes
-                         Gatenodes Securityremarks Createdname  )
+                         Gatenodes Securityremarks Createdname VehicleNo )
                 WITH VALUE #(  FOR key IN keys
                                ( %tky = <ls_head>-%tky
                                  Gateentryid = gateid
@@ -144,13 +146,14 @@ CLASS lhc_GateSecEntry IMPLEMENTATION.
                                  Gatenodes = gs_gateenno-text
                                  Securityremarks = securityremark
                                  Createdname = lv_username-PersonFullName
+                                 VehicleNo = <ls_head>-Vehicleno
 
                                 %control-Gateentryid = if_abap_behv=>mk-on
                                 %control-Gateentryiddate = if_abap_behv=>mk-on
                                 %control-Gateentryseriesdes = if_abap_behv=>mk-on
                                 %control-Gatenodes = if_abap_behv=>mk-on
                                 %control-Securityremarks = if_abap_behv=>mk-on
-*                                %control-CreatedByDisplayName = if_abap_behv=>mk-on
+                                %control-VehicleNo = if_abap_behv=>mk-on
 
 
                                  ) ).
